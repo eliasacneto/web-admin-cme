@@ -31,10 +31,21 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
+import { Edit, Edit2, Trash2 } from "lucide-react";
 
 interface AutoclaveBrand {
   id: number;
@@ -190,62 +201,92 @@ const CategoryAutoclaves = () => {
         </Sheet>
       </div>
 
-      <div className="mt-10 flex flex-col md:flex-row gap-10">
-        {autoclaveBrand.map((item) => (
-          <Dialog key={item.id}>
-            <DialogTrigger asChild>
-              <div className="flex flex-col bg-gray-50 shadow-md hover:shadow-lg cursor-pointer items-center justify-around gap-4 py-5 md:w-72">
-                <h3>imagem</h3>
-                <h1 className="font-bold text-lg">{item.brandName}</h1>
-              </div>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
-              <DialogHeader>
-                <DialogTitle>Editar autoclave</DialogTitle>
-                <DialogDescription>
-                  Altere o nome da marca da Autoclave
-                </DialogDescription>
-              </DialogHeader>
-              <form
-                onSubmit={(e) => {
-                  const form = e.currentTarget;
-                  const input = form.elements.namedItem(
-                    `name-${item.id}`
-                  ) as HTMLInputElement;
-                  updateBrand(item.id, input.value);
-                }}
-              >
-                <div className="grid gap-4 py-4">
-                  <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor={`name-${item.id}`} className="text-right">
-                      Nome:
-                    </Label>
-                    <Input
-                      id={`name-${item.id}`}
-                      defaultValue={item.brandName}
-                      className="col-span-3"
-                    />
-                  </div>
-                </div>
-                <DialogFooter className="gap-2">
+      <Table className="mt-14 bg-gray-200/30 rounded-lg">
+        <TableCaption>Listagem das marcas de autoclaves</TableCaption>
+        <TableHeader className="bg-zinc-900">
+          <TableRow className="">
+            <TableHead className="w-[100px] font-bold text-white">#</TableHead>
+            <TableHead className="font-bold text-white">Logomarca</TableHead>
+            <TableHead className="font-bold text-white">Nome</TableHead>
+            <TableHead className="text-right font-bold text-white">
+              Ações
+            </TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {autoclaveBrand.map((item) => (
+            <TableRow key={item.id}>
+              <TableCell className="font-medium">{item.id}</TableCell>
+              <TableCell>img</TableCell>
+              <TableCell>{item.brandName}</TableCell>
+              <TableCell>
+                <div className="flex justify-end gap-2">
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        onClick={() => updateBrand(item.id, item.brandName)}
+                      >
+                        <Edit size={16} />
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-[425px]">
+                      <DialogHeader>
+                        <DialogTitle>Editar autoclave</DialogTitle>
+                        <DialogDescription>
+                          Altere o nome da marca da Autoclave
+                        </DialogDescription>
+                      </DialogHeader>
+                      <form
+                        onSubmit={(e) => {
+                          const form = e.currentTarget;
+                          const input = form.elements.namedItem(
+                            `name-${item.id}`
+                          ) as HTMLInputElement;
+                          updateBrand(item.id, input.value);
+                        }}
+                      >
+                        <div className="grid gap-4 py-4">
+                          <div className="grid grid-cols-4 items-center gap-4">
+                            <Label
+                              htmlFor={`name-${item.id}`}
+                              className="text-right"
+                            >
+                              Nome:
+                            </Label>
+                            <Input
+                              id={`name-${item.id}`}
+                              defaultValue={item.brandName}
+                              className="col-span-3"
+                            />
+                          </div>
+                        </div>
+                        <DialogFooter className="gap-2">
+                          <Button
+                            variant="primary"
+                            onClick={() => updateBrand(item.id, item.brandName)}
+                          >
+                            Atualizar
+                          </Button>
+                        </DialogFooter>
+                      </form>
+                    </DialogContent>
+                  </Dialog>
                   <Button
-                    variant={"destructive"}
+                    variant="destructive"
+                    size="icon"
+                    className="text-white "
                     onClick={() => deleteBrand(item.id)}
                   >
-                    Excluir
+                    <Trash2 size={16} />
                   </Button>
-                  <Button
-                    variant="primary"
-                    onClick={() => updateBrand(item.id, item.brandName)}
-                  >
-                    Atualizar
-                  </Button>
-                </DialogFooter>
-              </form>
-            </DialogContent>
-          </Dialog>
-        ))}
-      </div>
+                </div>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
     </>
   );
 };
