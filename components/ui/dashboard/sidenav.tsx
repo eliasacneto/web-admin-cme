@@ -17,7 +17,7 @@ import {
 const Sidenav = () => {
   return (
     <>
-      <div className="flex w-full h-full flex-col  bg-gray-100 border-r bg-gray-100/40 lg:block dark:bg-gray-800/40">
+      <div className="flex w-full h-full flex-col  border-r  lg:block dark:bg-gray-800/40">
         <Link
           className="mb-5 flex h-20 items-center justify-around md:h-20 w-screen md:w-full bg-slate-900"
           href="/"
@@ -95,8 +95,8 @@ const Sidenav = () => {
 
             <li className="hidden md:block">
               <Link
-                className="bg-red-200/50 hover:bg-red-400 hover:text-white transition-all duration-500 ease-in-out rounded-md p-3 font-bold text-sm text-red-400 flex gap-2 md:mt-20"
-                href="/dashboard/autoclaves"
+                className="bg-red-200/50 hover:bg-red-400 hover:text-white transition-all duration-500 ease-in-out rounded-md p-3 font-bold text-sm text-red-400 flex gap-2 md:mt-20 md:fixed md:bottom-10  md:w-64"
+                href="/"
               >
                 <LogOutIcon size={18} /> Sair
               </Link>

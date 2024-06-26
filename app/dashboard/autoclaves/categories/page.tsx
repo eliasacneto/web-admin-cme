@@ -60,7 +60,7 @@ const CategoryAutoclaves = () => {
 
   const getBrand = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/brand");
+      const response = await axios.get("http://localhost:8000/autoclaveBrand");
       setAutoclaveBrand(response.data);
     } catch (e) {
       console.error("Erro ao buscar marcas:", e);
@@ -83,7 +83,7 @@ const CategoryAutoclaves = () => {
 
     if (input.value !== "") {
       try {
-        await axios.post("http://localhost:8000/brand", body);
+        await axios.post("http://localhost:8000/autoclaveBrand", body);
         toast({
           variant: "default",
           title: "Marca adicionada com sucesso!",
@@ -105,11 +105,11 @@ const CategoryAutoclaves = () => {
 
   const updateBrand = async (id: number, brandName: string) => {
     try {
-      await axios.put(`http://localhost:8000/brand/${id}`, { id, brandName }); // Passando id e brandName no corpo da requisição
-      toast({
-        variant: "default",
-        title: "Marca atualizada com sucesso!",
-      });
+      await axios.put(`http://localhost:8000/autoclaveBrand/${id}`, {
+        id,
+        brandName,
+      }); // Passando id e brandName no corpo da requisição
+
       getBrand();
     } catch (error) {
       console.error("Erro ao atualizar marca:", error);
@@ -123,7 +123,7 @@ const CategoryAutoclaves = () => {
 
   const deleteBrand = async (id: number) => {
     try {
-      await axios.delete(`http://localhost:8000/brand/${id}`);
+      await axios.delete(`http://localhost:8000/autoclaveBrand/${id}`);
       toast({
         variant: "destructive",
         title: "Marca removida com sucesso!",
@@ -168,7 +168,7 @@ const CategoryAutoclaves = () => {
 
         <Sheet>
           <SheetTrigger asChild>
-            <Button variant="primary">+ Adicionar nova</Button>
+            <Button variant="primary">+ Nova marca</Button>
           </SheetTrigger>
           <SheetContent>
             <SheetHeader>
@@ -202,11 +202,13 @@ const CategoryAutoclaves = () => {
       </div>
 
       <Table className="mt-14 bg-gray-200/30 rounded-lg">
-        <TableCaption>Listagem das marcas de autoclaves</TableCaption>
+        <TableCaption className="text-gray-400">
+          Listagem das marcas de autoclaves
+        </TableCaption>
         <TableHeader className="bg-zinc-900">
           <TableRow className="">
-            <TableHead className="w-[100px] font-bold text-white">#</TableHead>
-            <TableHead className="font-bold text-white">Logomarca</TableHead>
+            <TableHead className="w-[70px] font-bold text-white">#</TableHead>
+            <TableHead className="font-bold text-white">Logo</TableHead>
             <TableHead className="font-bold text-white">Nome</TableHead>
             <TableHead className="text-right font-bold text-white">
               Ações
@@ -217,7 +219,9 @@ const CategoryAutoclaves = () => {
           {autoclaveBrand.map((item) => (
             <TableRow key={item.id}>
               <TableCell className="font-medium">{item.id}</TableCell>
-              <TableCell>img</TableCell>
+              <TableCell>
+                <img src="/assets/images/equipacare-fav.png" width={35} />
+              </TableCell>
               <TableCell>{item.brandName}</TableCell>
               <TableCell>
                 <div className="flex justify-end gap-2">
@@ -265,7 +269,26 @@ const CategoryAutoclaves = () => {
                         <DialogFooter className="gap-2">
                           <Button
                             variant="primary"
-                            onClick={() => updateBrand(item.id, item.brandName)}
+                            onClick={() => {
+                              const input = document.getElementById(
+                                `name-${item.id}`
+                              ) as HTMLInputElement;
+                              updateBrand(item.id, input.value)
+                                .then(() => {
+                                  toast({
+                                    variant: "default",
+                                    title: "Marca atualizada com sucesso!",
+                                  });
+                                })
+                                .catch(() => {
+                                  toast({
+                                    variant: "destructive",
+                                    title: "Erro ao atualizar marca!",
+                                    description:
+                                      "Ocorreu um erro ao atualizar a marca.",
+                                  });
+                                });
+                            }}
                           >
                             Atualizar
                           </Button>
