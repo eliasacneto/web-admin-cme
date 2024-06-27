@@ -41,6 +41,18 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -53,7 +65,7 @@ interface AutoclaveBrand {
   brandName: string;
 }
 
-const CategoryAutoclaves = () => {
+const BrandsAutoclaves = () => {
   const { toast } = useToast();
   const [autoclaveBrand, setAutoclaveBrand] = useState<AutoclaveBrand[]>([]);
   const [newBrand, setNewBrand] = useState<string>("");
@@ -163,8 +175,15 @@ const CategoryAutoclaves = () => {
         </Breadcrumb>
       </div>
 
-      <div className="flex justify-between mt-10">
-        <h3 className="font-bold text-2xl">Marcas de autoclaves</h3>
+      <div className="flex flex-col  md:flex-row justify-between mt-10 gap-4">
+        <div className="flex flex-col antialiased">
+          <h3 className="font-bold text-xl md:text-2xl">
+            Marcas de Autoclaves
+          </h3>
+          <p className=" text-base md:text-lg text-gray-400">
+            Gerencie as marcas das Autoclaves disponíveis no seu estoque
+          </p>
+        </div>
 
         <Sheet>
           <SheetTrigger asChild>
@@ -296,14 +315,38 @@ const CategoryAutoclaves = () => {
                       </form>
                     </DialogContent>
                   </Dialog>
-                  <Button
-                    variant="destructive"
-                    size="icon"
-                    className="text-white "
-                    onClick={() => deleteBrand(item.id)}
-                  >
-                    <Trash2 size={16} />
-                  </Button>
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <Button
+                        variant="destructive"
+                        size="icon"
+                        className="text-white "
+                        // onClick={() => deleteBrand(item.id)}
+                      >
+                        <Trash2 size={16} />
+                      </Button>
+                      {/* <Button variant="outline">Show Dialog</Button> */}
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>
+                          Deseja remover este item?
+                        </AlertDialogTitle>
+                        <AlertDialogDescription>
+                          Esta ação não poderá ser desfeita.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                        <AlertDialogAction
+                          className="bg-red-500 hover:bg-red-600"
+                          onClick={() => deleteBrand(item.id)}
+                        >
+                          Excluir
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
                 </div>
               </TableCell>
             </TableRow>
@@ -314,4 +357,4 @@ const CategoryAutoclaves = () => {
   );
 };
 
-export default CategoryAutoclaves;
+export default BrandsAutoclaves;

@@ -40,7 +40,7 @@ const Sidenav = () => {
               <small className="flex gap-2 mb-3">Dashboard</small>
               <Link
                 className="hover:bg-[#A7B928] hover:text-white transition-all duration-500 ease-in-out rounded-md p-3 font-semibold text-slate-800 text-sm flex gap-2"
-                href="/dashboard/autoclaves"
+                href="/dashboard/"
               >
                 <Users size={18} /> Leads
               </Link>
@@ -55,7 +55,7 @@ const Sidenav = () => {
                   <AccordionContent>
                     <Link
                       className="hover:bg-[#A7B928] hover:text-white transition-all duration-500 ease-in-out rounded-md p-3 font-semibold text-slate-800 text-sm flex gap-2"
-                      href="/dashboard/autoclaves/categories"
+                      href="/dashboard/autoclaves/brands"
                     >
                       <BlocksIcon size={18} /> Marcas
                     </Link>
