@@ -58,6 +58,13 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { Edit, Edit2, Trash2 } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface AutoclaveBrand {
   id: number;
@@ -185,7 +192,53 @@ const BrandsAutoclaves = () => {
           </p>
         </div>
 
-        <Sheet>
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button variant="primary">+ Nova marca</Button>
+          </DialogTrigger>
+          <DialogContent className="">
+            <DialogHeader>
+              <DialogTitle>Nova marca de autoclave</DialogTitle>
+              <DialogDescription>
+                Preencha os campos para cadastrar uma nova marca de autoclave.
+              </DialogDescription>
+            </DialogHeader>
+            <form onSubmit={saveData}>
+              <div className="flex flex-col justify-start items-center gap-4 py-4 w-full">
+                <div className="flex items-center w-full gap-2">
+                  <Label htmlFor="autoclaveBrandImage">Logomarga:</Label>
+                  <Input
+                    id="autoclaveBrandImage"
+                    type="file"
+                    defaultValue=""
+                    className="col-span-3 "
+                  />
+                </div>
+
+                <div className="flex flex-col w-full gap-2">
+                  <Label htmlFor="name" className="">
+                    Nome da marca:
+                  </Label>
+                  <Input
+                    id="name"
+                    defaultValue=""
+                    className="col-span-3 "
+                    value={newBrand}
+                    onChange={(e) => setNewBrand(e.target.value)}
+                  />
+                </div>
+              </div>
+              <DialogFooter>
+                <Button variant="outline">Cancelar</Button>
+                <Button type="submit" variant="primary">
+                  Cadastrar
+                </Button>
+              </DialogFooter>
+            </form>
+          </DialogContent>
+        </Dialog>
+
+        {/* <Sheet>
           <SheetTrigger asChild>
             <Button variant="primary">+ Nova marca</Button>
           </SheetTrigger>
@@ -217,7 +270,7 @@ const BrandsAutoclaves = () => {
               </SheetFooter>
             </form>
           </SheetContent>
-        </Sheet>
+        </Sheet> */}
       </div>
 
       <Table className="mt-14 bg-gray-200/30 rounded-lg">
