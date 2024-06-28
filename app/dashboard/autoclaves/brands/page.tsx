@@ -229,7 +229,6 @@ const BrandsAutoclaves = () => {
                 </div>
               </div>
               <DialogFooter>
-                <Button variant="outline">Cancelar</Button>
                 <Button type="submit" variant="primary">
                   Cadastrar
                 </Button>
