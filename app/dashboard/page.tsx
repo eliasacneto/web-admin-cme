@@ -84,7 +84,11 @@ const Dashboard = () => {
 
     const body = {
       id: lead.length + 1,
-      lead: input.value,
+      customer: input.value,
+      hospitalName: input.value,
+      hospitalContact: input.value,
+      city: input.value,
+      state: input.value,
     };
 
     if (input.value !== "") {
@@ -184,96 +188,136 @@ const Dashboard = () => {
                 Preencha os campos para cadastrar um novo cliente em potencial.
               </DialogDescription>
             </DialogHeader>
-            <div className="flex flex-col justify-start items-start gap-4 py-4">
-              <div className="flex justify-between items-center gap-4 w-full">
-                <div className="flex flex-col w-full gap-2">
-                  <Label htmlFor="name" className="">
-                    Nome completo
-                  </Label>
-                  <Input id="name" defaultValue="" className="col-span-3" />
+            <form onSubmit={saveLead}>
+              <div className="flex flex-col justify-start items-start gap-4 py-4">
+                <div className="flex justify-between items-center gap-4 w-full">
+                  <div className="flex flex-col w-full gap-2">
+                    <Label htmlFor="name" className="">
+                      Nome completo:
+                    </Label>
+                    <Input
+                      id="name"
+                      defaultValue=""
+                      className="col-span-3"
+                      value={newLead}
+                      onChange={(e) => setNewLead(e.target.value)}
+                    />
+                  </div>
                 </div>
-              </div>
-              <div className="flex justify-between items-center gap-4 w-full">
+                <div className="flex justify-between items-center gap-4 w-full">
+                  <div className="flex flex-col w-full gap-2">
+                    <Label htmlFor="username" className="">
+                      E-mail do hospital:
+                    </Label>
+                    <Input
+                      id="username"
+                      defaultValue=""
+                      className="col-span-3"
+                    />
+                  </div>
+                  <div className="flex flex-col w-full gap-2">
+                    <Label htmlFor="username" className="">
+                      Contato:
+                    </Label>
+                    <Input
+                      id="username"
+                      defaultValue=""
+                      className="col-span-3"
+                    />
+                  </div>
+                </div>
                 <div className="flex flex-col w-full gap-2">
                   <Label htmlFor="username" className="">
-                    E-mail do hospital:
+                    Nome do hospital:
+                  </Label>
+                  <Input id="username" defaultValue="" className="col-span-3" />
+                </div>
+                <div className="flex justify-between items-center gap-4 w-full">
+                  <div className="flex flex-col w-full gap-2">
+                    <Label htmlFor="username" className="">
+                      CNPJ:
+                    </Label>
+                    <Input
+                      id="username"
+                      defaultValue=""
+                      className="col-span-3"
+                    />
+                  </div>
+                  <div className="flex flex-col w-full gap-2">
+                    <Label htmlFor="username" className="">
+                      Cargo atual:
+                    </Label>
+                    <Input
+                      id="username"
+                      defaultValue=""
+                      className="col-span-3"
+                    />
+                  </div>
+                </div>
+                <div className="flex justify-between items-center gap-4 w-full">
+                  <div className="flex flex-col w-full gap-2">
+                    <Label htmlFor="username" className="">
+                      CEP:
+                    </Label>
+                    <Input
+                      id="username"
+                      defaultValue=""
+                      className="col-span-3"
+                    />
+                  </div>
+                  <div className="flex flex-col w-full gap-2">
+                    <Label htmlFor="username" className="">
+                      Número:
+                    </Label>
+                    <Input
+                      id="username"
+                      defaultValue=""
+                      className="col-span-3"
+                    />
+                  </div>
+                </div>
+                <div className="flex flex-col w-full gap-2">
+                  <Label htmlFor="username" className="">
+                    Avenida:
                   </Label>
                   <Input id="username" defaultValue="" className="col-span-3" />
                 </div>
                 <div className="flex flex-col w-full gap-2">
                   <Label htmlFor="username" className="">
-                    Contato:
+                    Bairro:
                   </Label>
                   <Input id="username" defaultValue="" className="col-span-3" />
                 </div>
-              </div>
-              <div className="flex flex-col w-full gap-2">
-                <Label htmlFor="username" className="">
-                  Nome do hospital:
-                </Label>
-                <Input id="username" defaultValue="" className="col-span-3" />
-              </div>
-              <div className="flex justify-between items-center gap-4 w-full">
-                <div className="flex flex-col w-full gap-2">
-                  <Label htmlFor="username" className="">
-                    CNPJ:
-                  </Label>
-                  <Input id="username" defaultValue="" className="col-span-3" />
-                </div>
-                <div className="flex flex-col w-full gap-2">
-                  <Label htmlFor="username" className="">
-                    Cargo atual:
-                  </Label>
-                  <Input id="username" defaultValue="" className="col-span-3" />
-                </div>
-              </div>
-              <div className="flex justify-between items-center gap-4 w-full">
-                <div className="flex flex-col w-full gap-2">
-                  <Label htmlFor="username" className="">
-                    CEP:
-                  </Label>
-                  <Input id="username" defaultValue="" className="col-span-3" />
-                </div>
-                <div className="flex flex-col w-full gap-2">
-                  <Label htmlFor="username" className="">
-                    Número:
-                  </Label>
-                  <Input id="username" defaultValue="" className="col-span-3" />
+                <div className="flex justify-between items-center gap-4 w-full">
+                  <div className="flex flex-col w-full gap-2">
+                    <Label htmlFor="username" className="">
+                      Cidade:
+                    </Label>
+                    <Input
+                      id="username"
+                      defaultValue=""
+                      className="col-span-3"
+                    />
+                  </div>
+                  <div className="flex flex-col w-full gap-2">
+                    <Label htmlFor="username" className="">
+                      UF:
+                    </Label>
+                    <Input
+                      id="username"
+                      defaultValue=""
+                      className="col-span-3"
+                    />
+                  </div>
                 </div>
               </div>
-              <div className="flex flex-col w-full gap-2">
-                <Label htmlFor="username" className="">
-                  Avenida:
-                </Label>
-                <Input id="username" defaultValue="" className="col-span-3" />
-              </div>
-              <div className="flex flex-col w-full gap-2">
-                <Label htmlFor="username" className="">
-                  Bairro:
-                </Label>
-                <Input id="username" defaultValue="" className="col-span-3" />
-              </div>
-              <div className="flex justify-between items-center gap-4 w-full">
-                <div className="flex flex-col w-full gap-2">
-                  <Label htmlFor="username" className="">
-                    Cidade:
-                  </Label>
-                  <Input id="username" defaultValue="" className="col-span-3" />
-                </div>
-                <div className="flex flex-col w-full gap-2">
-                  <Label htmlFor="username" className="">
-                    UF:
-                  </Label>
-                  <Input id="username" defaultValue="" className="col-span-3" />
-                </div>
-              </div>
-            </div>
-            <DialogFooter>
-              <Button variant="outline">Cancelar</Button>
-              <Button type="submit" variant="primary">
-                Cadastrar
-              </Button>
-            </DialogFooter>
+              <DialogFooter>
+                <Button variant="outline">Cancelar</Button>
+                <Button type="submit" variant="primary">
+                  Cadastrar
+                </Button>
+              </DialogFooter>
+            </form>
           </DialogContent>
         </Dialog>
       </div>

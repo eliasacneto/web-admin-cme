@@ -75,6 +75,7 @@ const AutoclaveModelos = () => {
           </DialogTrigger>
           <DialogContent className="">
             <DialogHeader>
+              {/* <form onSubmit={saveLead}> */}
               <DialogTitle>Novo modelo de autoclave</DialogTitle>
               <DialogDescription>
                 Preencha os campos para cadastrar um novo modelo de autoclave.
@@ -158,6 +159,7 @@ const AutoclaveModelos = () => {
                 Cadastrar
               </Button>
             </DialogFooter>
+            {/* </form> */}
           </DialogContent>
         </Dialog>
       </div>
