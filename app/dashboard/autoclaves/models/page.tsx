@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -7,17 +9,6 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-
-import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
 
 import {
   Dialog,
@@ -37,11 +28,59 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Edit2, Eye, Trash2 } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
+import axios from "axios";
+
+interface AutoclaveModel {
+  id: number;
+  autoclaveModelName: string;
+  autoclaveBrandName: string;
+  brandName: string;
+}
 
 const AutoclaveModelos = () => {
+  const { toast } = useToast();
+  const [autoclaveModel, setAutoclaveModel] = useState<AutoclaveModel[]>([]);
+  const [newAutoclaveModel, setNewAutoclaveModel] = useState<string>("");
+
+  const getAutoclaveModel = async () => {
+    try {
+      const response = await axios.get("http://localhost:8000/autoclaveModel");
+      setAutoclaveModel(response.data);
+    } catch (e) {
+      console.error("Erro ao buscar modelos:", e);
+      toast({
+        variant: "destructive",
+        title: "Erro ao buscar modelos!",
+        description: "Ocorreu um erro ao buscar os modelos.",
+      });
+    }
+  };
+
+  useEffect(() => {
+    getAutoclaveModel();
+  }, []);
+
   return (
     <>
       <div>
@@ -163,6 +202,44 @@ const AutoclaveModelos = () => {
           </DialogContent>
         </Dialog>
       </div>
+
+      {autoclaveModel.map((item) => (
+        <Accordion type="single" collapsible key={item.id}>
+          <AccordionItem value="item-1">
+            <AccordionTrigger className="text-xl font-bold mt-10 text-zinc-800">
+              {item.autoclaveBrandName}
+            </AccordionTrigger>
+            <AccordionContent>
+              <Card className="w-full">
+                <div className="flex items-center justify-between m-5">
+                  <div className="flex gap-5 items-center">
+                    <img
+                      src="/assets/images/equipacare-fav.png"
+                      alt="image"
+                      width={42}
+                    />
+                    <h1 className="text-lg font-bold">
+                      {item.autoclaveModelName}
+                    </h1>
+                  </div>
+                  <div className="flex gap-3">
+                    <Button variant="outline" size="icon">
+                      <Eye size="18" />
+                    </Button>
+                    <Button variant="outline" size="icon">
+                      <Edit2 size="16" />
+                    </Button>
+
+                    <Button variant="destructive" size="icon">
+                      <Trash2 size="16" />
+                    </Button>
+                  </div>
+                </div>
+              </Card>
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+      ))}
     </>
   );
 };

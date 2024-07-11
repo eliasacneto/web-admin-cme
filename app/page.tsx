@@ -13,7 +13,7 @@ export default function Login() {
               className="flex w-auto h-auto "
               src="/assets/images/equipacare-logo.png"
               width={150}
-              height={5}
+              height={1}
               sizes=""
               alt="logo"
             />

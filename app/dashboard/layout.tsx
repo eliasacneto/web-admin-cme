@@ -1,6 +1,11 @@
 import Sidenav from "@/components/ui/dashboard/sidenav";
 import { Toaster } from "@/components/ui/toaster";
+import { Metadata } from "next";
 
+export const metadata: Metadata = {
+  title: "Meus Leads",
+  description: "Portal Administrativo Equipacare",
+};
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex h-screen flex-col md:flex-row md:overflow-hidden ">

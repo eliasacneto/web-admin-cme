@@ -21,17 +21,6 @@ import {
 } from "@/components/ui/dialog";
 
 import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
-
-import {
   Table,
   TableBody,
   TableCaption,
@@ -58,35 +47,30 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { Edit, Edit2, Trash2 } from "lucide-react";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 
 interface AutoclaveBrand {
   id: number;
-  autoclaveBrand: string;
-  brandName: string;
+
+  nomeMarca: string;
+  tipoEquipamento: string;
 }
 
 const BrandsAutoclaves = () => {
   const { toast } = useToast();
   const [autoclaveBrand, setAutoclaveBrand] = useState<AutoclaveBrand[]>([]);
-  const [newBrand, setNewBrand] = useState<string>("");
+  const [nomeMarca, setNomeMarca] = useState<string>("");
+  const [tipoEquipamento, setTipoEquipamento] = useState<string>("");
 
   const getBrand = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/autoclaveBrand");
+      const response = await axios.get("http://localhost:8000/brand/");
       setAutoclaveBrand(response.data);
     } catch (e) {
       console.error("Erro ao buscar marcas:", e);
       toast({
         variant: "destructive",
         title: "Erro ao buscar marcas!",
-        description: "Ocorreu um erro ao buscar as marcas.",
+        description: "Ocorreu um erro ao buscar as marcasa.",
       });
     }
   };
@@ -97,18 +81,19 @@ const BrandsAutoclaves = () => {
 
     const body = {
       id: autoclaveBrand.length + 1,
-      brandName: input.value,
+      nomeMarca: input.value,
+      tipoEquipamento: input.value,
     };
 
     if (input.value !== "") {
       try {
-        await axios.post("http://localhost:8000/autoclaveBrand", body);
+        await axios.post("http://localhost:8000/brand", body);
         toast({
           variant: "default",
           title: "Marca adicionada com sucesso!",
         });
         getBrand();
-        setNewBrand("");
+        setNomeMarca("");
       } catch (error) {
         console.error("Erro ao adicionar marca:", error);
         toast({
@@ -122,27 +107,33 @@ const BrandsAutoclaves = () => {
     }
   };
 
-  const updateBrand = async (id: number, brandName: string) => {
+  const updateBrand = async (
+    id: number,
+    nomeMarca: string,
+    tipoEquipamento: string
+  ) => {
     try {
-      await axios.put(`http://localhost:8000/autoclaveBrand/${id}`, {
+      await axios.put(`http://localhost:8000/brand/${id}`, {
         id,
-        brandName,
+        nomeMarca,
+        tipoEquipamento,
       }); // Passando id e brandName no corpo da requisição
 
+      console.log(id, nomeMarca, tipoEquipamento);
       getBrand();
     } catch (error) {
       console.error("Erro ao atualizar marca:", error);
       toast({
         variant: "destructive",
         title: "Erro ao atualizar marca!",
-        description: "Ocorreu um erro ao atualizar a marca.",
+        description: "Ocorreu um erro ao atualizar a marcass.",
       });
     }
   };
 
   const deleteBrand = async (id: number) => {
     try {
-      await axios.delete(`http://localhost:8000/autoclaveBrand/${id}`);
+      await axios.delete(`http://localhost:8000/brand/${id}`);
       toast({
         variant: "destructive",
         title: "Marca removida com sucesso!",
@@ -223,8 +214,8 @@ const BrandsAutoclaves = () => {
                     id="name"
                     defaultValue=""
                     className="col-span-3 "
-                    value={newBrand}
-                    onChange={(e) => setNewBrand(e.target.value)}
+                    value={nomeMarca}
+                    onChange={(e) => setNomeMarca(e.target.value)}
                   />
                 </div>
               </div>
@@ -293,16 +284,12 @@ const BrandsAutoclaves = () => {
               <TableCell>
                 <img src="/assets/images/equipacare-fav.png" width={35} />
               </TableCell>
-              <TableCell>{item.brandName}</TableCell>
+              <TableCell>{item.nomeMarca}</TableCell>
               <TableCell>
                 <div className="flex justify-end gap-2">
                   <Dialog>
                     <DialogTrigger asChild>
-                      <Button
-                        variant="outline"
-                        size="icon"
-                        onClick={() => updateBrand(item.id, item.brandName)}
-                      >
+                      <Button variant="outline" size="icon">
                         <Edit size={16} />
                       </Button>
                     </DialogTrigger>
@@ -319,7 +306,11 @@ const BrandsAutoclaves = () => {
                           const input = form.elements.namedItem(
                             `name-${item.id}`
                           ) as HTMLInputElement;
-                          updateBrand(item.id, input.value);
+                          updateBrand(
+                            item.id,
+                            input.value,
+                            item.tipoEquipamento
+                          );
                         }}
                       >
                         <div className="grid gap-4 py-4">
@@ -332,7 +323,7 @@ const BrandsAutoclaves = () => {
                             </Label>
                             <Input
                               id={`name-${item.id}`}
-                              defaultValue={item.brandName}
+                              defaultValue={item.nomeMarca}
                               className="col-span-3"
                             />
                           </div>
@@ -344,7 +335,11 @@ const BrandsAutoclaves = () => {
                               const input = document.getElementById(
                                 `name-${item.id}`
                               ) as HTMLInputElement;
-                              updateBrand(item.id, input.value)
+                              updateBrand(
+                                item.id,
+                                input.value,
+                                item.tipoEquipamento
+                              )
                                 .then(() => {
                                   toast({
                                     variant: "default",

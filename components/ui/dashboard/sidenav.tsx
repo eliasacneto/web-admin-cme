@@ -95,7 +95,7 @@ const Sidenav = () => {
 
             <li className="hidden md:block">
               <Link
-                className="bg-red-200/50 hover:bg-red-400 hover:text-white transition-all duration-500 ease-in-out rounded-md p-3 font-bold text-sm text-red-400 flex gap-2 md:mt-20 md:fixed md:bottom-10  md:w-64"
+                className=" hover:bg-red-400 hover:text-white transition-all duration-500 ease-in-out rounded-md p-3 font-bold text-sm text-red-400 flex gap-2 md:mt-20 md:fixed md:bottom-10  md:w-64"
                 href="/"
               >
                 <LogOutIcon size={18} /> Sair
