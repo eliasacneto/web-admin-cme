@@ -7,19 +7,16 @@ export default function Login() {
   return (
     <>
       <div className="flex flex-col lg:flex-row gap-10">
-        <div className="flex w-full h-60 lg:h-screen lg:w-[70%] bg-slate-500 bg-login bg-blend-multiply text-white">
+        <div className="lg:flex w-full h-60 lg:h-screen lg:w-[70%] bg-slate-500 bg-login bg-blend-multiply text-white hidden">
           <div className="flex items-start m-10">
-            <Image
+            <img
               className="flex w-auto h-auto "
               src="/assets/images/equipacare-logo.png"
-              width={150}
-              height={1}
-              sizes=""
               alt="logo"
             />
           </div>
         </div>
-        <div className="flex flex-col bg-white  text-black justify-start items-center w-full lg:w-[30%] lg:justify-center gap-4 h-screen">
+        <div className="flex flex-col bg-white  text-black justify-center lg:justify-start items-center w-full lg:w-[30%] gap-4 h-screen">
           <Image
             className="w-auto h-auto"
             src="/assets/images/equipacare-fav.png"
