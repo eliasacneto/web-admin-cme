@@ -16,16 +16,14 @@ export default function Login() {
             />
           </div>
         </div>
-        <div className="flex flex-col bg-white  text-black justify-center lg:justify-start items-center w-full lg:w-[30%] gap-4 h-screen">
-          <Image
-            className="w-auto h-auto"
-            src="/assets/images/equipacare-fav.png"
-            width={70}
-            height={150}
+        <div className="flex flex-col bg-white text-black justify-center items-center w-full lg:w-[30%] gap-4 h-screen">
+          <img
+            className="w-[300px] h-auto"
+            src="/assets/images/logo-equipacare-dark.png"
             alt="logo"
           />
-          <div className="flex flex-col items-center">
-            <h1 className="text-xl font-semibold mb-2">Área comercial</h1>
+          <div className="flex flex-col items-center mt-8">
+            {/* <h1 className="text-xl font-semibold mb-2">Área comercial</h1> */}
             <span>Entre com o seu e-mail e senha</span>
           </div>
           <div className="flex flex-col gap-4 justify-center w-[70%] items-center">
@@ -38,7 +36,7 @@ export default function Login() {
                 </Button>
               </Link>
             </form>
-            <Button variant={"ghost"}>Esqueci minha senha</Button>
+            <Button variant={"ghost"}>Recuperar acesso</Button>
           </div>
           <footer className="flex flex-col items-center  absolute bottom-0 pb-5 text-sm">
             <p>
