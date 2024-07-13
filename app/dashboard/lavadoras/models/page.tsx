@@ -51,22 +51,22 @@ import { Edit2, Eye, Trash2 } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import axios from "axios";
 
-interface AutoclaveModel {
+interface WasherModel {
   id: number;
-  modeloAutoclave: string;
-  autoclaveBrandName: string;
-  marcaAutoclave: string;
+  modeloLavadora: string;
+  lavadoraBrandName: string;
+  marcaLavadora: string;
 }
 
-const AutoclaveModelos = () => {
+const LavadoraModelos = () => {
   const { toast } = useToast();
-  const [autoclaveModel, setAutoclaveModel] = useState<AutoclaveModel[]>([]);
-  const [newAutoclaveModel, setNewAutoclaveModel] = useState<string>("");
+  const [washerModel, setWasherModel] = useState<WasherModel[]>([]);
+  const [newWasherModel, setNewWasherModel] = useState<string>("");
 
-  const getAutoclaveModel = async () => {
+  const getWasherModel = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/autoclaveModel");
-      setAutoclaveModel(response.data);
+      const response = await axios.get("http://localhost:8000/washerModel");
+      setWasherModel(response.data);
     } catch (e) {
       console.error("Erro ao buscar modelos:", e);
       toast({
@@ -78,7 +78,7 @@ const AutoclaveModelos = () => {
   };
 
   useEffect(() => {
-    getAutoclaveModel();
+    getWasherModel();
   }, []);
 
   return (
@@ -91,7 +91,7 @@ const AutoclaveModelos = () => {
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbLink href="/components">Autoclaves</BreadcrumbLink>
+              <BreadcrumbLink href="/components">Lavadoras</BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
@@ -102,9 +102,9 @@ const AutoclaveModelos = () => {
       </div>
       <div className="flex justify-between mt-10">
         <div className="flex flex-col antialiased">
-          <h3 className="font-bold text-2xl">Modelos de Autoclaves</h3>
+          <h3 className="font-bold text-2xl">Modelos de Lavadoras</h3>
           <p className="text-lg text-gray-400">
-            Gerencie os modelos de Autoclaves disponíveis no seu estoque
+            Gerencie os modelos de Lavadoras disponíveis no seu estoque
           </p>
         </div>
 
@@ -115,9 +115,9 @@ const AutoclaveModelos = () => {
           <DialogContent className="">
             <DialogHeader>
               {/* <form onSubmit={saveLead}> */}
-              <DialogTitle>Novo modelo de autoclave</DialogTitle>
+              <DialogTitle>Novo modelo de lavadora</DialogTitle>
               <DialogDescription>
-                Preencha os campos para cadastrar um novo modelo de autoclave.
+                Preencha os campos para cadastrar um novo modelo de lavadora.
               </DialogDescription>
             </DialogHeader>
             <div className="flex flex-col justify-start items-start gap-4 py-4">
@@ -203,11 +203,11 @@ const AutoclaveModelos = () => {
         </Dialog>
       </div>
 
-      {autoclaveModel.map((item) => (
+      {washerModel.map((item) => (
         <Accordion type="single" collapsible key={item.id}>
           <AccordionItem value="item-1">
             <AccordionTrigger className="text-xl font-bold mt-10 text-zinc-800">
-              {item.marcaAutoclave}
+              {item.marcaLavadora}
             </AccordionTrigger>
             <AccordionContent>
               <Card className="w-full">
@@ -218,9 +218,7 @@ const AutoclaveModelos = () => {
                       alt="image"
                       width={42}
                     />
-                    <h1 className="text-lg font-bold">
-                      {item.modeloAutoclave}
-                    </h1>
+                    <h1 className="text-lg font-bold">{item.modeloLavadora}</h1>
                   </div>
                   <div className="flex gap-3">
                     <Button variant="outline" size="icon">
@@ -244,4 +242,4 @@ const AutoclaveModelos = () => {
   );
 };
 
-export default AutoclaveModelos;
+export default LavadoraModelos;

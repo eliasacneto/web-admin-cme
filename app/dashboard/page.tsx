@@ -275,7 +275,7 @@ const Dashboard = () => {
             Visualize e adicione clientes em potencial para entrar em contato
           </p>
         </div>
-        {/* 
+
         <Dialog>
           <DialogTrigger asChild>
             <Button variant="primary">+ Novo cadastro</Button>
@@ -398,7 +398,7 @@ const Dashboard = () => {
               </DialogFooter>
             </form>
           </DialogContent>
-        </Dialog> */}
+        </Dialog>
       </div>
 
       <Table className="mt-14 bg-gray-200/30 rounded-lg ">

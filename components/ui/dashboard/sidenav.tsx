@@ -78,13 +78,13 @@ const Sidenav = () => {
                   <AccordionContent>
                     <Link
                       className="hover:bg-[#A7B928] hover:text-white transition-all duration-500 ease-in-out rounded-md p-3 font-semibold text-slate-800 text-sm flex gap-2"
-                      href="/dashboard/autoclaves/categories"
+                      href="/dashboard/lavadoras/brands"
                     >
                       <WashingMachineIcon size={18} /> Marcas
                     </Link>
                     <Link
                       className="hover:bg-[#A7B928] hover:text-white transition-all duration-500 ease-in-out rounded-md p-3 font-semibold text-slate-800 text-sm flex gap-2"
-                      href="/dashboard/autoclaves/models"
+                      href="/dashboard/lavadoras/models"
                     >
                       <WashingMachineIcon size={18} /> Modelos
                     </Link>
