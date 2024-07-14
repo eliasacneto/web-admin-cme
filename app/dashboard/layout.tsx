@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Meus Leads",
+  title: "Dashboard Equipacare",
   description: "Portal Administrativo Equipacare",
 };
 export default function Layout({ children }: { children: React.ReactNode }) {
