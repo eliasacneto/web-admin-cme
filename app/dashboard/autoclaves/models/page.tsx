@@ -104,7 +104,7 @@ const AutoclaveModelos = () => {
 
   const getInfo = async (id: number) => {
     try {
-      const responseA = await axios.get(
+      const responseA = await axios.get<Autoclave>(
         `http://localhost:8000/autoclaveModel/${id}`
       );
       setAutoclaveInfo(responseA.data);
@@ -124,7 +124,6 @@ const AutoclaveModelos = () => {
       const response = await axios.get<AutoclaveBrand[]>(
         "http://localhost:8000/autoclaveModel/by-brands"
       );
-
       setAutoclaveModel(response.data);
     } catch (e) {
       console.error("Erro ao buscar modelos:", e);
@@ -139,7 +138,7 @@ const AutoclaveModelos = () => {
   };
 
   const saveData = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault(); // Evita o comportamento padrão de recarregar a página
+    e.preventDefault();
     const form = e.currentTarget;
     const formData = new FormData(form);
 
@@ -200,77 +199,72 @@ const AutoclaveModelos = () => {
 
   const updateAutoclaveModel = async (
     id: number,
-    modeloAutoclave: string,
-    volumeTotCamaraLt: number,
-    marcaAutoclave: number,
-    volumeUtilCamaraLt: number,
-    medTotTempoCicloATMin: number,
-    tempoCargaDescargaMin: number,
-    tempoClicloCarDescMin: number,
-    tempoTestDiarioBDMin: number,
-    tempoDiarioAquecimentoMaqMin: number,
-    tempoDisponivelDiarioMin: number,
-    producaoHospitalVolDiarioMaterialLt: number,
-    volumeProcessadoIntervaloPicoLt90totDiario: number,
-    intervaloDiarioPicoMin: number,
-    numMaxCiclosDia: number,
-    numMaxCiclosIntervaloPico: number,
-    aproveitamentoCamaraPorcent: number,
-    numAutoclaves: number,
-    numAutoclavesUmaEmManutencao: number,
-    capProcessamIntervaloPicoTodasAutoclavesOnLt: number,
-    horasTrabalhoAtenderVolTotalHr: number,
-    capUtilizTodasAutoclavesIntervaloPicoPorcent: number,
-    preco: number
+    event: React.FormEvent<HTMLFormElement>
   ) => {
-    try {
-      await axios.put(`http://localhost:8000/autoclaveModel/${id}`, {
-        id,
-        modeloAutoclave,
-        volumeTotCamaraLt,
-        marcaAutoclave,
-        volumeUtilCamaraLt,
-        medTotTempoCicloATMin,
-        tempoCargaDescargaMin,
-        tempoClicloCarDescMin,
-        tempoTestDiarioBDMin,
-        tempoDiarioAquecimentoMaqMin,
-        tempoDisponivelDiarioMin,
-        producaoHospitalVolDiarioMaterialLt,
-        volumeProcessadoIntervaloPicoLt90totDiario,
-        intervaloDiarioPicoMin,
-        numMaxCiclosDia,
-        numMaxCiclosIntervaloPico,
-        aproveitamentoCamaraPorcent,
-        numAutoclaves,
-        numAutoclavesUmaEmManutencao,
-        capProcessamIntervaloPicoTodasAutoclavesOnLt,
-        horasTrabalhoAtenderVolTotalHr,
-        capUtilizTodasAutoclavesIntervaloPicoPorcent,
-        preco,
+    event.preventDefault();
+    getInfo(id);
+    if (!autoclaveInfo) {
+      toast({
+        variant: "destructive",
+        title: "Erro ao atualizar!",
+        description: "Informações da autoclave não disponíveis.",
       });
+      return;
+    }
 
+    if (selectedBrandId === null) {
+      toast({
+        variant: "destructive",
+        title: "Erro ao atualizar!",
+        description: "Selecione uma marca.",
+      });
+      return;
+    }
+
+    const formData = new FormData(event.currentTarget);
+    const data = {
+      marcaAutoclave: selectedBrandId,
+      modeloAutoclave: formData.get("modeloAutoclave") as string,
+      volumeTotCamaraLt: Number(formData.get("volumeTotCamaraLt")),
+      volumeUtilCamaraLt: Number(formData.get("volumeUtilCamaraLt")),
+      medTotTempoCicloATMin: Number(formData.get("medTotTempoCicloATMin")),
+      tempoCargaDescargaMin: Number(formData.get("tempoCargaDescargaMin")),
+      tempoClicloCarDescMin: 0,
+      tempoTestDiarioBDMin: Number(formData.get("tempoTestDiarioBDMin")),
+      tempoDiarioAquecimentoMaqMin: Number(
+        formData.get("tempoDiarioAquecimentoMaqMin")
+      ),
+      tempoDisponivelDiarioMin: 0,
+      producaoHospitalVolDiarioMaterialLt: 14089,
+      volumeProcessadoIntervaloPicoLt90totDiario: 0,
+      intervaloDiarioPicoMin: 0,
+      numMaxCiclosDia: 0.0,
+      numMaxCiclosIntervaloPico: 0.0,
+      aproveitamentoCamaraPorcent: 0.0,
+      numAutoclaves: 3,
+      numAutoclavesUmaEmManutencao: 0,
+      capProcessamIntervaloPicoTodasAutoclavesOnLt: 0,
+      horasTrabalhoAtenderVolTotalHr: 0,
+      capUtilizTodasAutoclavesIntervaloPicoPorcent: 0.0,
+      preco: Number(formData.get("preco")),
+    };
+
+    try {
+      await axios.put(
+        `http://localhost:8000/autoclaveModel/${autoclaveInfo.id}`,
+        data
+      );
       getAutoclaveModel();
+      toast({
+        variant: "default",
+        title: "Modelo atualizado com sucesso!",
+      });
     } catch (error) {
       console.error("Erro ao atualizar Modelo:", error);
       toast({
         variant: "destructive",
         title: "Erro ao atualizar!",
         description: "Ocorreu um erro ao atualizar o Modelo.",
-      });
-    }
-  };
-
-  const getAutoclaveBrands = async () => {
-    try {
-      const response = await axios.get("http://localhost:8000/autoclaveModel/");
-      setAutoclaveModel(response.data);
-    } catch (e) {
-      console.error("Erro ao buscar marcas:", e);
-      toast({
-        variant: "destructive",
-        title: "Erro ao buscar marcas!",
-        description: "Ocorreu um erro ao buscar as marcas.",
       });
     }
   };
@@ -319,7 +313,7 @@ const AutoclaveModelos = () => {
           </BreadcrumbList>
         </Breadcrumb>
       </div>
-      <div className="flex justify-between mt-10">
+      <div className="flex justify-between mt-10 mb-10">
         <div className="flex flex-col antialiased">
           <h3 className="font-bold text-2xl">Modelos de Autoclaves</h3>
           <p className="text-lg text-gray-400">
@@ -463,15 +457,17 @@ const AutoclaveModelos = () => {
       {autoclaveModel.map((brand) => (
         <Accordion type="single" collapsible key={brand.id}>
           <AccordionItem value={`brand-${brand.id}`}>
-            <AccordionTrigger className="text-xl font-bold mt-10 text-zinc-800">
-              <p className="text-slate-800 text-lg">{brand.nomeMarca}</p>
+            <AccordionTrigger className="text-xl font-bold rounded-md mt-2 bg-gray-100">
+              <p className="text-slate-800 text-base ml-4">
+                <span className="text-[#859221]">Marca:</span> {brand.nomeMarca}
+              </p>
             </AccordionTrigger>
             <AccordionContent>
               {brand.autoclaves.map((autoclave) => (
                 <Card className="w-full" key={autoclave.id}>
                   <div className="flex items-center justify-between m-5">
                     <div className="flex gap-5 items-center">
-                      <h1 className="text-lg font-bold">
+                      <h1 className="text-base font-semibold">
                         {autoclave.modeloAutoclave}
                       </h1>
                     </div>
@@ -576,7 +572,7 @@ const AutoclaveModelos = () => {
                                   name="medTotTempoCicloATMin"
                                   className="col-span-3"
                                   defaultValue={
-                                    autoclaveInfo?.tempoClicloCarDescMin
+                                    autoclaveInfo?.medTotTempoCicloATMin
                                   }
                                   readOnly
                                 />
@@ -660,7 +656,13 @@ const AutoclaveModelos = () => {
                       {/* Form to edit an autoclave model */}
                       <Dialog>
                         <DialogTrigger asChild>
-                          <Button variant="outline" size="icon">
+                          <Button
+                            variant="outline"
+                            size="icon"
+                            onClick={() => {
+                              getInfo(autoclave.id);
+                            }}
+                          >
                             <Edit2 size="16" />
                           </Button>
                         </DialogTrigger>
@@ -671,19 +673,36 @@ const AutoclaveModelos = () => {
                             </DialogTitle>
                             <DialogDescription></DialogDescription>
                           </DialogHeader>
-                          <form>
+                          <form
+                            onSubmit={(e) =>
+                              updateAutoclaveModel(autoclaveInfo?.id || 0, e)
+                            }
+                          >
                             <div className="flex flex-col justify-start items-start gap-4 py-4">
+                              <input
+                                type="hidden"
+                                name="id"
+                                value={autoclaveInfo?.id}
+                              />
                               <div className="flex justify-between items-center gap-4 w-full">
                                 <div className="flex flex-col w-full gap-2">
                                   <Label htmlFor="marcaAutoclave">Marca:</Label>
                                   <Select
+                                    name="marcaAutoclave"
                                     onValueChange={(value) =>
                                       setSelectedBrandId(Number(value))
                                     }
                                   >
                                     <SelectTrigger id="marcaAutoclave">
                                       <SelectValue
-                                        defaultValue={autoclave.marcaAutoclave}
+                                        defaultValue={
+                                          selectedBrandId !== null
+                                            ? autoclaveModel.find(
+                                                (brand) =>
+                                                  brand.id === selectedBrandId
+                                              )?.nomeMarca || ""
+                                            : ""
+                                        }
                                       />
                                     </SelectTrigger>
                                     <SelectContent position="popper">
@@ -699,54 +718,49 @@ const AutoclaveModelos = () => {
                                   </Select>
                                 </div>
                                 <div className="flex flex-col w-full gap-2">
-                                  <Label htmlFor="name" className="">
+                                  <Label htmlFor="modeloAutoclave">
                                     Nome do modelo:
                                   </Label>
                                   <Input
                                     id="modeloAutoclave"
                                     name="modeloAutoclave"
                                     className="col-span-3"
-                                    value={newAutoclaveModel}
-                                    onChange={(e) =>
-                                      setNewAutoclaveModel(e.target.value)
+                                    defaultValue={
+                                      autoclaveInfo?.modeloAutoclave
                                     }
                                   />
                                 </div>
                               </div>
                               <div className="flex justify-between items-center gap-4 w-full">
                                 <div className="flex flex-col w-full gap-2">
-                                  <Label
-                                    htmlFor="volumeTotCamaraLt"
-                                    className=""
-                                  >
+                                  <Label htmlFor="volumeTotCamaraLt">
                                     Volume total da câmara (L):
                                   </Label>
                                   <Input
                                     id="volumeTotCamaraLt"
                                     name="volumeTotCamaraLt"
                                     className="col-span-3"
+                                    defaultValue={
+                                      autoclaveInfo?.volumeTotCamaraLt
+                                    }
                                   />
                                 </div>
                                 <div className="flex flex-col w-full gap-2">
-                                  <Label
-                                    htmlFor="volumeUtilCamaraLt"
-                                    className=""
-                                  >
+                                  <Label htmlFor="volumeUtilCamaraLt">
                                     Volume útil da câmara (L):
                                   </Label>
                                   <Input
                                     id="volumeUtilCamaraLt"
                                     name="volumeUtilCamaraLt"
                                     className="col-span-3"
-                                    defaultValue={autoclave.volumeUtilCamaraLt}
+                                    defaultValue={
+                                      autoclaveInfo?.volumeUtilCamaraLt
+                                    }
                                   />
                                 </div>
                               </div>
                               <div className="flex flex-col w-full gap-2">
-                                <Label
-                                  htmlFor="medTotTempoCicloATMin"
-                                  className=""
-                                >
+                                <Label htmlFor="medTotTempoCicloATMin">
                                   Tempo em minutos do total médio do ciclo de
                                   alta temperatura incluindo secagem (capacidade
                                   máxima):
@@ -755,42 +769,41 @@ const AutoclaveModelos = () => {
                                   id="medTotTempoCicloATMin"
                                   name="medTotTempoCicloATMin"
                                   className="col-span-3"
+                                  defaultValue={
+                                    autoclaveInfo?.medTotTempoCicloATMin
+                                  }
                                 />
                               </div>
                               <div className="flex justify-between items-center gap-4 w-full">
                                 <div className="flex flex-col w-full gap-2">
-                                  <Label
-                                    htmlFor="tempoCargaDescargaMin"
-                                    className=""
-                                  >
+                                  <Label htmlFor="tempoCargaDescargaMin">
                                     Tempo em minutos de Carga e Descarga:
                                   </Label>
                                   <Input
                                     id="tempoCargaDescargaMin"
                                     name="tempoCargaDescargaMin"
                                     className="col-span-3"
+                                    defaultValue={
+                                      autoclaveInfo?.tempoCargaDescargaMin
+                                    }
                                   />
                                 </div>
                                 <div className="flex flex-col w-full gap-2">
-                                  <Label
-                                    htmlFor="tempoTestDiarioBDMin"
-                                    className=""
-                                  >
+                                  <Label htmlFor="tempoTestDiarioBDMin">
                                     Tempo em minutos para teste diário B&D:
                                   </Label>
                                   <Input
                                     id="tempoTestDiarioBDMin"
                                     name="tempoTestDiarioBDMin"
                                     className="col-span-3"
+                                    defaultValue={
+                                      autoclaveInfo?.tempoTestDiarioBDMin
+                                    }
                                   />
                                 </div>
                               </div>
-
                               <div className="flex flex-col w-full gap-2">
-                                <Label
-                                  htmlFor="tempoDiarioAquecimentoMaqMin"
-                                  className=""
-                                >
+                                <Label htmlFor="tempoDiarioAquecimentoMaqMin">
                                   Tempo em minutos para procedimento diário de
                                   aquecimento máquina fria:
                                 </Label>
@@ -798,16 +811,18 @@ const AutoclaveModelos = () => {
                                   id="tempoDiarioAquecimentoMaqMin"
                                   name="tempoDiarioAquecimentoMaqMin"
                                   className="col-span-3"
+                                  defaultValue={
+                                    autoclaveInfo?.tempoDiarioAquecimentoMaqMin
+                                  }
                                 />
                               </div>
                               <div className="flex flex-col w-full gap-2">
-                                <Label htmlFor="preco" className="">
-                                  Preço:
-                                </Label>
+                                <Label htmlFor="preco">Preço:</Label>
                                 <Input
                                   id="preco"
                                   name="preco"
                                   className="col-span-3"
+                                  defaultValue={autoclaveInfo?.preco}
                                 />
                               </div>
                             </div>
@@ -815,7 +830,7 @@ const AutoclaveModelos = () => {
                             <DialogFooter>
                               <Button variant="outline">Cancelar</Button>
                               <Button type="submit" variant="primary">
-                                Cadastrar
+                                Atualizar
                               </Button>
                             </DialogFooter>
                           </form>
