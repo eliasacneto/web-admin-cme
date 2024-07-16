@@ -304,7 +304,9 @@ const AutoclaveModelos = () => {
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbLink href="/components">Autoclaves</BreadcrumbLink>
+              <BreadcrumbLink href="/dashboard/autoclaves/brands">
+                Autoclaves
+              </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
@@ -337,7 +339,7 @@ const AutoclaveModelos = () => {
               <div className="flex flex-col justify-start items-start gap-4 py-4">
                 <div className="flex justify-between items-center gap-4 w-full">
                   <div className="flex flex-col w-full gap-2">
-                    <Label htmlFor="marcaAutoclave">Marca:</Label>
+                    <Label htmlFor="marcaAutoclave">Marca da Autoclave:</Label>
                     <Select
                       onValueChange={(value) =>
                         setSelectedBrandId(Number(value))
@@ -446,7 +448,7 @@ const AutoclaveModelos = () => {
               <DialogFooter>
                 <Button variant="outline">Cancelar</Button>
                 <Button type="submit" variant="primary">
-                  Cadastrar
+                  Cadastrar Autoclave
                 </Button>
               </DialogFooter>
             </form>

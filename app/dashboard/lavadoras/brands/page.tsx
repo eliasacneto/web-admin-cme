@@ -168,7 +168,9 @@ const BrandsWasher = () => {
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbLink href="/components">Lavadoras</BreadcrumbLink>
+              <BreadcrumbLink href="/dashboard/lavadoras/brands">
+                Lavadoras
+              </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>

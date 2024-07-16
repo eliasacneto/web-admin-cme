@@ -168,7 +168,9 @@ const BrandsAutoclaves = () => {
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbLink href="/components">Autoclaves</BreadcrumbLink>
+              <BreadcrumbLink href="/dashboard/lavadoras/brands">
+                Autoclaves
+              </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
