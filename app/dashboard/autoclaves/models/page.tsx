@@ -96,11 +96,27 @@ interface AutoclaveBrand {
 
 const AutoclaveModelos = () => {
   const { toast } = useToast(); // Ajuste para o seu pacote de toast
-  const [autoclaveInfo, setAutoclaveInfo] = useState<Autoclave[]>([]);
+  const [autoclaveInfo, setAutoclaveInfo] = useState<Autoclave>();
   const [autoclaveModel, setAutoclaveModel] = useState<AutoclaveBrand[]>([]);
   const [newAutoclaveModel, setNewAutoclaveModel] = useState<string>("");
   const [loading, setLoading] = useState(true);
   const [selectedBrandId, setSelectedBrandId] = useState<number | null>(null);
+
+  const getInfo = async (id: number) => {
+    try {
+      const responseA = await axios.get(
+        `http://localhost:8000/autoclaveModel/${id}`
+      );
+      setAutoclaveInfo(responseA.data);
+    } catch (e) {
+      console.error("Erro ao buscar modelos:", e);
+      toast({
+        variant: "destructive",
+        title: "Erro ao obter modelos!",
+        description: "Ocorreu um erro ao obter os modelos.",
+      });
+    }
+  };
 
   const getAutoclaveModel = async () => {
     setLoading(true);
@@ -108,14 +124,8 @@ const AutoclaveModelos = () => {
       const response = await axios.get<AutoclaveBrand[]>(
         "http://localhost:8000/autoclaveModel/by-brands"
       );
-      const responseA = await axios.get(
-        `http://localhost:8000/autoclaveModel/53`
-      );
-      setAutoclaveModel(response.data);
-      setAutoclaveInfo(responseA.data);
-      console.log(responseA);
 
-      console.log(responseA.data);
+      setAutoclaveModel(response.data);
     } catch (e) {
       console.error("Erro ao buscar modelos:", e);
       toast({
@@ -461,11 +471,6 @@ const AutoclaveModelos = () => {
                 <Card className="w-full" key={autoclave.id}>
                   <div className="flex items-center justify-between m-5">
                     <div className="flex gap-5 items-center">
-                      {/* <img
-                        src="/assets/images/equipacare-fav.png"
-                        alt="image"
-                        width={42}
-                      /> */}
                       <h1 className="text-lg font-bold">
                         {autoclave.modeloAutoclave}
                       </h1>
@@ -474,7 +479,13 @@ const AutoclaveModelos = () => {
                       {/* See autoclave infos */}
                       <Dialog>
                         <DialogTrigger asChild>
-                          <Button variant="outline" size="icon">
+                          <Button
+                            variant="outline"
+                            size="icon"
+                            onClick={() => {
+                              getInfo(autoclave.id);
+                            }}
+                          >
                             <Eye size="18" />
                           </Button>
                         </DialogTrigger>
@@ -500,7 +511,8 @@ const AutoclaveModelos = () => {
                                     id="modeloAutoclave"
                                     name="modeloAutoclave"
                                     className="col-span-3"
-                                    value={autoclave.marcaAutoclave}
+                                    value={brand?.nomeMarca}
+                                    readOnly
                                   />
                                 </div>
                                 <div className="flex flex-col w-full gap-2">
@@ -511,7 +523,8 @@ const AutoclaveModelos = () => {
                                     id="modeloAutoclave"
                                     name="modeloAutoclave"
                                     className="col-span-3"
-                                    value={autoclave.id}
+                                    value={autoclaveInfo?.modeloAutoclave}
+                                    readOnly
                                   />
                                 </div>
                               </div>
@@ -527,7 +540,8 @@ const AutoclaveModelos = () => {
                                     id="volumeTotCamaraLt"
                                     name="volumeTotCamaraLt"
                                     className="col-span-3"
-                                    value={autoclave.volumeTotCamaraLt}
+                                    value={autoclaveInfo?.volumeTotCamaraLt}
+                                    readOnly
                                   />
                                 </div>
                                 <div className="flex flex-col w-full gap-2">
@@ -541,7 +555,10 @@ const AutoclaveModelos = () => {
                                     id="volumeUtilCamaraLt"
                                     name="volumeUtilCamaraLt"
                                     className="col-span-3"
-                                    defaultValue={autoclave.volumeUtilCamaraLt}
+                                    defaultValue={
+                                      autoclaveInfo?.volumeUtilCamaraLt
+                                    }
+                                    readOnly
                                   />
                                 </div>
                               </div>
@@ -558,6 +575,10 @@ const AutoclaveModelos = () => {
                                   id="medTotTempoCicloATMin"
                                   name="medTotTempoCicloATMin"
                                   className="col-span-3"
+                                  defaultValue={
+                                    autoclaveInfo?.tempoClicloCarDescMin
+                                  }
+                                  readOnly
                                 />
                               </div>
                               <div className="flex justify-between items-center gap-4 w-full">
@@ -572,6 +593,10 @@ const AutoclaveModelos = () => {
                                     id="tempoCargaDescargaMin"
                                     name="tempoCargaDescargaMin"
                                     className="col-span-3"
+                                    defaultValue={
+                                      autoclaveInfo?.tempoCargaDescargaMin
+                                    }
+                                    readOnly
                                   />
                                 </div>
                                 <div className="flex flex-col w-full gap-2">
@@ -585,6 +610,10 @@ const AutoclaveModelos = () => {
                                     id="tempoTestDiarioBDMin"
                                     name="tempoTestDiarioBDMin"
                                     className="col-span-3"
+                                    defaultValue={
+                                      autoclaveInfo?.tempoTestDiarioBDMin
+                                    }
+                                    readOnly
                                   />
                                 </div>
                               </div>
@@ -601,6 +630,10 @@ const AutoclaveModelos = () => {
                                   id="tempoDiarioAquecimentoMaqMin"
                                   name="tempoDiarioAquecimentoMaqMin"
                                   className="col-span-3"
+                                  defaultValue={
+                                    autoclaveInfo?.tempoDiarioAquecimentoMaqMin
+                                  }
+                                  readOnly
                                 />
                               </div>
                               <div className="flex flex-col w-full gap-2">
@@ -611,12 +644,14 @@ const AutoclaveModelos = () => {
                                   id="preco"
                                   name="preco"
                                   className="col-span-3"
+                                  defaultValue={autoclaveInfo?.preco}
+                                  readOnly
                                 />
                               </div>
                             </div>
 
                             <DialogFooter>
-                              <Button variant="outline">Sthery</Button>
+                              <Button variant="outline">Fechar</Button>
                             </DialogFooter>
                           </form>
                         </DialogContent>
