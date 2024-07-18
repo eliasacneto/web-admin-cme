@@ -753,14 +753,14 @@ const AutoclaveModelos = () => {
                             <DialogContent>
                               <DialogHeader>
                                 <DialogTitle>
-                                  Editar Lavadora:{" "}
+                                  Editar Autoclave:{" "}
                                   <span className="text-[#8c9a20]">
                                     {autoclave.modeloAutoclave}
                                   </span>
                                 </DialogTitle>
                                 <DialogDescription>
-                                  Preencha os campos para editar a lavadora
-                                  termodesinfectora selecionada
+                                  Preencha os campos para editar a autoclave
+                                  selecionada
                                 </DialogDescription>
                               </DialogHeader>
                               {autoclaveInfo && (
@@ -773,7 +773,7 @@ const AutoclaveModelos = () => {
                                     <div className="flex justify-between items-center gap-4 w-full">
                                       <div className="flex flex-col w-full gap-2">
                                         <Label htmlFor="marcaLavadora">
-                                          Marca da Lavadora:
+                                          Marca da Autoclave:
                                         </Label>
                                         <Select
                                           onValueChange={(value) =>
