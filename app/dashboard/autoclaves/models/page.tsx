@@ -198,138 +198,156 @@ const AutoclaveModelos = () => {
     }
   };
 
-  const updateAuto = async (
-    id: number,
-    modeloAutoclave: string,
-    volumeTotCamaraLt: number = 14089,
-    volumeUtilCamaraLt: number = 14089,
-    medTotTempoCicloATMin: number = 14089,
-    tempoCargaDescargaMin: number = 14089,
-    tempoClicloCarDescMin: number = 14089,
-    tempoTestDiarioBDMin: number = 14089,
-    tempoDiarioAquecimentoMaqMin: number = 14089,
-    tempoDisponivelDiarioMin: number = 0,
-    producaoHospitalVolDiarioMaterialLt: number = 14089,
-    volumeProcessadoIntervaloPicoLt90totDiario: number = 0,
-    intervaloDiarioPicoMin: number = 0,
-    numMaxCiclosDia: number = 0,
-    numMaxCiclosIntervaloPico: number = 0,
-    aproveitamentoCamaraPorcent: number = 0,
-    numAutoclaves: number = 3,
-    numAutoclavesUmaEmManutencao: number = 0,
-    capProcessamIntervaloPicoTodasAutoclavesOnLt: number = 0,
-    horasTrabalhoAtenderVolTotalHr: number = 0,
-    capUtilizTodasAutoclavesIntervaloPicoPorcent: number = 0,
-    preco: number = 14089
-  ) => {
-    try {
-      await axios.put(`http://localhost:8000/autoclaveModel/${id}`, {
-        id,
-        modeloAutoclave,
-        volumeTotCamaraLt,
-        volumeUtilCamaraLt,
-        medTotTempoCicloATMin,
-        tempoCargaDescargaMin,
-        tempoClicloCarDescMin,
-        tempoTestDiarioBDMin,
-        tempoDiarioAquecimentoMaqMin,
-        tempoDisponivelDiarioMin,
-        producaoHospitalVolDiarioMaterialLt,
-        volumeProcessadoIntervaloPicoLt90totDiario,
-        intervaloDiarioPicoMin,
-        numMaxCiclosDia,
-        numMaxCiclosIntervaloPico,
-        aproveitamentoCamaraPorcent,
-        numAutoclaves,
-        numAutoclavesUmaEmManutencao,
-        capProcessamIntervaloPicoTodasAutoclavesOnLt,
-        horasTrabalhoAtenderVolTotalHr,
-        capUtilizTodasAutoclavesIntervaloPicoPorcent,
-        preco,
-      });
-    } catch (error) {
-      console.error("Erro ao atualizar Lead:", error);
-      toast({
-        variant: "destructive",
-        title: "Erro ao atualizar!",
-        description: "Ocorreu um erro ao atualizar o Lead.",
-      });
-    }
-  };
-
-  //   const updateAutoclaveModel = async (
+  //   const updateAuto = async (
   //     id: number,
   //     modeloAutoclave: string,
-
-  //     event: React.FormEvent<HTMLFormElement>
+  //     volumeTotCamaraLt: number = 14089,
+  //     volumeUtilCamaraLt: number = 14089,
+  //     medTotTempoCicloATMin: number = 14089,
+  //     tempoCargaDescargaMin: number = 14089,
+  //     tempoClicloCarDescMin: number = 14089,
+  //     tempoTestDiarioBDMin: number = 14089,
+  //     tempoDiarioAquecimentoMaqMin: number = 14089,
+  //     tempoDisponivelDiarioMin: number = 0,
+  //     producaoHospitalVolDiarioMaterialLt: number = 14089,
+  //     volumeProcessadoIntervaloPicoLt90totDiario: number = 0,
+  //     intervaloDiarioPicoMin: number = 0,
+  //     numMaxCiclosDia: number = 0,
+  //     numMaxCiclosIntervaloPico: number = 0,
+  //     aproveitamentoCamaraPorcent: number = 0,
+  //     numAutoclaves: number = 3,
+  //     numAutoclavesUmaEmManutencao: number = 0,
+  //     capProcessamIntervaloPicoTodasAutoclavesOnLt: number = 0,
+  //     horasTrabalhoAtenderVolTotalHr: number = 0,
+  //     capUtilizTodasAutoclavesIntervaloPicoPorcent: number = 0,
+  //     preco: number = 14089
   //   ) => {
-  //     event.preventDefault();
-  //     getInfo(id);
-  //     if (!autoclaveInfo) {
-  //       toast({
-  //         variant: "destructive",
-  //         title: "Erro ao atualizar!",
-  //         description: "Informações da autoclave não disponíveis.",
-  //       });
-  //       return;
-  //     }
-
-  //     if (selectedBrandId === null) {
-  //       toast({
-  //         variant: "destructive",
-  //         title: "Erro ao atualizar!",
-  //         description: "Selecione uma marca.",
-  //       });
-  //       return;
-  //     }
-
-  //     const formData = new FormData(event.currentTarget);
-  //     const data = {
-  //     //   marcaAutoclave: selectedBrandId,
-  //       modeloAutoclave: formData.get("modeloAutoclave") as string,
-  //     //   volumeTotCamaraLt: Number(formData.get("volumeTotCamaraLt")),
-  //     //   volumeUtilCamaraLt: Number(formData.get("volumeUtilCamaraLt")),
-  //     //   medTotTempoCicloATMin: Number(formData.get("medTotTempoCicloATMin")),
-  //     //   tempoCargaDescargaMin: Number(formData.get("tempoCargaDescargaMin")),
-  //     //   tempoClicloCarDescMin: 0,
-  //     //   tempoTestDiarioBDMin: Number(formData.get("tempoTestDiarioBDMin")),
-  //     //   tempoDiarioAquecimentoMaqMin: Number(
-  //     //     formData.get("tempoDiarioAquecimentoMaqMin")
-  //     //   ),
-  //     //   tempoDisponivelDiarioMin: 0,
-  //     //   producaoHospitalVolDiarioMaterialLt: 14089,
-  //     //   volumeProcessadoIntervaloPicoLt90totDiario: 0,
-  //     //   intervaloDiarioPicoMin: 0,
-  //     //   numMaxCiclosDia: 0.0,
-  //     //   numMaxCiclosIntervaloPico: 0.0,
-  //     //   aproveitamentoCamaraPorcent: 0.0,
-  //     //   numAutoclaves: 3,
-  //     //   numAutoclavesUmaEmManutencao: 0,
-  //     //   capProcessamIntervaloPicoTodasAutoclavesOnLt: 0,
-  //     //   horasTrabalhoAtenderVolTotalHr: 0,
-  //     //   capUtilizTodasAutoclavesIntervaloPicoPorcent: 0.0,
-  //     //   preco: Number(formData.get("preco")),
-  //     };
-
   //     try {
-  //       await axios.put(
-  //         `http://localhost:8000/autoclaveModel/${autoclaveInfo.id}`,
-  //         data
-  //       );
-  //       getAutoclaveModel();
-  //       toast({
-  //         variant: "default",
-  //         title: "Modelo atualizado com sucesso!",
+  //       await axios.put(`http://localhost:8000/autoclaveModel/${id}`, {
+  //         id,
+  //         modeloAutoclave,
+  //         volumeTotCamaraLt,
+  //         volumeUtilCamaraLt,
+  //         medTotTempoCicloATMin,
+  //         tempoCargaDescargaMin,
+  //         tempoClicloCarDescMin,
+  //         tempoTestDiarioBDMin,
+  //         tempoDiarioAquecimentoMaqMin,
+  //         tempoDisponivelDiarioMin,
+  //         producaoHospitalVolDiarioMaterialLt,
+  //         volumeProcessadoIntervaloPicoLt90totDiario,
+  //         intervaloDiarioPicoMin,
+  //         numMaxCiclosDia,
+  //         numMaxCiclosIntervaloPico,
+  //         aproveitamentoCamaraPorcent,
+  //         numAutoclaves,
+  //         numAutoclavesUmaEmManutencao,
+  //         capProcessamIntervaloPicoTodasAutoclavesOnLt,
+  //         horasTrabalhoAtenderVolTotalHr,
+  //         capUtilizTodasAutoclavesIntervaloPicoPorcent,
+  //         preco,
   //       });
   //     } catch (error) {
-  //       console.error("Erro ao atualizar Modelo:", error);
+  //       console.error("Erro ao atualizar Lead:", error);
   //       toast({
   //         variant: "destructive",
   //         title: "Erro ao atualizar!",
-  //         description: "Ocorreu um erro ao atualizar o Modelo.",
+  //         description: "Ocorreu um erro ao atualizar o Lead.",
   //       });
   //     }
   //   };
+
+  const updateAutoclaveModel = async (
+    id: number,
+    event: React.FormEvent<HTMLFormElement>
+  ) => {
+    event.preventDefault();
+    getInfo(id);
+    if (!autoclaveInfo) {
+      toast({
+        variant: "destructive",
+        title: "Erro ao atualizar!",
+        description: "Informações da lavadora não disponíveis.",
+      });
+      return;
+    }
+
+    if (selectedBrandId === null) {
+      toast({
+        variant: "destructive",
+        title: "Erro ao atualizar!",
+        description: "Selecione uma marca.",
+      });
+      return;
+    }
+
+    const formData = new FormData(event.currentTarget);
+    const data = {
+      marcaAutoclave: selectedBrandId,
+      modeloAutoclave: formData.get("modeloAutoclave") as string,
+      volumeTotCamaraLt: Number(formData.get("volumeTotCamaraLt")),
+      volumeUtilCamaraLt: Number(formData.get("volumeUtilCamaraLt")),
+      medTotTempoCicloATMin: Number(formData.get("medTotTempoCicloATMin")),
+      tempoCargaDescargaMin: Number(formData.get("tempoCargaDescargaMin")),
+      tempoClicloCarDescMin: Number(formData.get("tempoClicloCarDescMin")),
+      tempoTestDiarioBDMin: Number(formData.get("tempoTestDiarioBDMin")),
+      tempoDiarioAquecimentoMaqMin: Number(
+        formData.get("tempoDiarioAquecimentoMaqMin")
+      ),
+      tempoDisponivelDiarioMin: Number(
+        formData.get("tempoDisponivelDiarioMin")
+      ),
+      producaoHospitalVolDiarioMaterialLt: Number(
+        formData.get("producaoHospitalVolDiarioMaterialLt")
+      ),
+      volumeProcessadoIntervaloPicoLt90totDiario: Number(
+        formData.get("volumeProcessadoIntervaloPicoLt90totDiario")
+      ),
+      intervaloDiarioPicoMin: Number(formData.get("intervaloDiarioPicoMin")),
+      numMaxCiclosDia: Number(formData.get("numMaxCiclosDia")),
+      numMaxCiclosIntervaloPico: Number(
+        formData.get("numMaxCiclosIntervaloPico")
+      ),
+      aproveitamentoCamaraPorcent: Number(
+        formData.get("aproveitamentoCamaraPorcent")
+      ),
+      numAutoclaves: Number(formData.get("numAutoclaves")),
+      numAutoclavesUmaEmManutencao: Number(
+        formData.get("numAutoclavesUmaEmManutencao")
+      ),
+      capProcessamIntervaloPicoTodasAutoclavesOnLt: Number(
+        formData.get("capProcessamIntervaloPicoTodasAutoclavesOnLt")
+      ),
+      horasTrabalhoAtenderVolTotalHr: Number(
+        formData.get("horasTrabalhoAtenderVolTotalHr")
+      ),
+      capUtilizTodasAutoclavesIntervaloPicoPorcent: Number(
+        formData.get("capUtilizTodasAutoclavesIntervaloPicoPorcent")
+      ),
+      preco: Number(formData.get("preco")),
+    };
+
+    try {
+      await axios.put(
+        `http://localhost:8000/autoclaveModel/${autoclaveInfo.id}`,
+        data
+      );
+      console.log(selectedBrandId);
+      getAutoclaveModel();
+      toast({
+        variant: "default",
+        title: "Modelo atualizado com sucesso!",
+      });
+    } catch (error) {
+      console.log(data);
+      console.error("Erro ao atualizar Modelo:", error);
+      toast({
+        variant: "destructive",
+        title: "Erro ao atualizar!",
+        description: "Ocorreu um erro ao atualizar o Modelo.",
+      });
+    }
+  };
 
   const deleteAutoclaveModel = async (id: number) => {
     try {
@@ -552,7 +570,6 @@ const AutoclaveModelos = () => {
                                 <Eye size="18" />
                               </Button>
                             </DialogTrigger>
-
                             <DialogContent className="">
                               <DialogHeader>
                                 <DialogTitle>
@@ -561,7 +578,6 @@ const AutoclaveModelos = () => {
                                     {autoclave.modeloAutoclave}
                                   </span>
                                 </DialogTitle>
-
                                 <DialogDescription></DialogDescription>
                               </DialogHeader>
 
@@ -573,15 +589,18 @@ const AutoclaveModelos = () => {
                                         Marca da Autoclave:
                                       </Label>
                                       <Input
-                                        id="modeloAutoclave"
-                                        name="modeloAutoclave"
+                                        id="marcaAutoclave"
+                                        name="marcaAutoclave"
                                         className="col-span-3"
                                         value={brand?.nomeMarca}
                                         readOnly
                                       />
                                     </div>
                                     <div className="flex flex-col w-full gap-2">
-                                      <Label htmlFor="name" className="">
+                                      <Label
+                                        htmlFor="modeloAutoclave"
+                                        className=""
+                                      >
                                         Nome do modelo:
                                       </Label>
                                       <Input
@@ -639,7 +658,6 @@ const AutoclaveModelos = () => {
                                     <Input
                                       id="medTotTempoCicloATMin"
                                       name="medTotTempoCicloATMin"
-                                      className="col-span-3"
                                       defaultValue={
                                         autoclaveInfo?.medTotTempoCicloATMin
                                       }
@@ -657,7 +675,6 @@ const AutoclaveModelos = () => {
                                       <Input
                                         id="tempoCargaDescargaMin"
                                         name="tempoCargaDescargaMin"
-                                        className="col-span-3"
                                         defaultValue={
                                           autoclaveInfo?.tempoCargaDescargaMin
                                         }
@@ -674,7 +691,6 @@ const AutoclaveModelos = () => {
                                       <Input
                                         id="tempoTestDiarioBDMin"
                                         name="tempoTestDiarioBDMin"
-                                        className="col-span-3"
                                         defaultValue={
                                           autoclaveInfo?.tempoTestDiarioBDMin
                                         }
@@ -694,7 +710,6 @@ const AutoclaveModelos = () => {
                                     <Input
                                       id="tempoDiarioAquecimentoMaqMin"
                                       name="tempoDiarioAquecimentoMaqMin"
-                                      className="col-span-3"
                                       defaultValue={
                                         autoclaveInfo?.tempoDiarioAquecimentoMaqMin
                                       }
@@ -735,200 +750,232 @@ const AutoclaveModelos = () => {
                                 <Edit2 size="16" />
                               </Button>
                             </DialogTrigger>
-                            <DialogContent className="">
+                            <DialogContent>
                               <DialogHeader>
                                 <DialogTitle>
-                                  Editar modelo de autoclave
+                                  Editar Lavadora:{" "}
+                                  <span className="text-[#8c9a20]">
+                                    {autoclave.modeloAutoclave}
+                                  </span>
                                 </DialogTitle>
-                                <DialogDescription></DialogDescription>
+                                <DialogDescription>
+                                  Preencha os campos para editar a lavadora
+                                  termodesinfectora selecionada
+                                </DialogDescription>
                               </DialogHeader>
-
-                              {/* <form
-                            onSubmit={(e) =>
-                              updateAutoclaveModel(autoclaveInfo?.id || 0, e)
-                            }
-                          >
-                            <div className="flex flex-col justify-start items-start gap-4 py-4">
-                              <div className="flex justify-between items-center gap-4 w-full">
-                                <div className="flex flex-col w-full gap-2">
-                                  <Label htmlFor="marcaAutoclave">
-                                    Marca da Autoclave:
-                                  </Label>
-                                  <Input
-                                    id="modeloAutoclave"
-                                    name="modeloAutoclave"
-                                    className="col-span-3"
-                                    value={brand?.nomeMarca}
-                                  />
-                                </div>
-                                <div className="flex flex-col w-full gap-2">
-                                  <Label htmlFor="name" className="">
-                                    Nome do modelo:
-                                  </Label>
-                                  <Input
-                                    id="modeloAutoclave"
-                                    name="modeloAutoclave"
-                                    className="col-span-3"
-                                    defaultValue={
-                                      autoclaveInfo?.modeloAutoclave
-                                    }
-                                    value=""
-                                  />
-                                </div>
-                              </div>
-                              <div className="flex justify-between items-center gap-4 w-full">
-                                <div className="flex flex-col w-full gap-2">
-                                  <Label
-                                    htmlFor="volumeTotCamaraLt"
-                                    className=""
-                                  >
-                                    Volume total da câmara (L):
-                                  </Label>
-                                  <Input
-                                    id="volumeTotCamaraLt"
-                                    name="volumeTotCamaraLt"
-                                    className="col-span-3"
-                                    value={autoclaveInfo?.volumeTotCamaraLt}
-                                  />
-                                </div>
-                                <div className="flex flex-col w-full gap-2">
-                                  <Label
-                                    htmlFor="volumeUtilCamaraLt"
-                                    className=""
-                                  >
-                                    Volume útil da câmara (L):
-                                  </Label>
-                                  <Input
-                                    id="volumeUtilCamaraLt"
-                                    name="volumeUtilCamaraLt"
-                                    className="col-span-3"
-                                    defaultValue={
-                                      autoclaveInfo?.volumeUtilCamaraLt
-                                    }
-                                  />
-                                </div>
-                              </div>
-                              <div className="flex flex-col w-full gap-2">
-                                <Label
-                                  htmlFor="medTotTempoCicloATMin"
-                                  className=""
-                                >
-                                  Tempo em minutos do total médio do ciclo de
-                                  alta temperatura incluindo secagem (capacidade
-                                  máxima):
-                                </Label>
-                                <Input
-                                  id="medTotTempoCicloATMin"
-                                  name="medTotTempoCicloATMin"
-                                  className="col-span-3"
-                                  defaultValue={
-                                    autoclaveInfo?.medTotTempoCicloATMin
+                              {autoclaveInfo && (
+                                <form
+                                  onSubmit={(e) =>
+                                    updateAutoclaveModel(autoclave.id, e)
                                   }
-                                />
-                              </div>
-                              <div className="flex justify-between items-center gap-4 w-full">
-                                <div className="flex flex-col w-full gap-2">
-                                  <Label
-                                    htmlFor="tempoCargaDescargaMin"
-                                    className=""
-                                  >
-                                    Tempo em minutos de Carga e Descarga:
-                                  </Label>
-                                  <Input
-                                    id="tempoCargaDescargaMin"
-                                    name="tempoCargaDescargaMin"
-                                    className="col-span-3"
-                                    defaultValue={
-                                      autoclaveInfo?.tempoCargaDescargaMin
-                                    }
-                                  />
-                                </div>
-                                <div className="flex flex-col w-full gap-2">
-                                  <Label
-                                    htmlFor="tempoTestDiarioBDMin"
-                                    className=""
-                                  >
-                                    Tempo em minutos para teste diário B&D:
-                                  </Label>
-                                  <Input
-                                    id="tempoTestDiarioBDMin"
-                                    name="tempoTestDiarioBDMin"
-                                    className="col-span-3"
-                                    defaultValue={
-                                      autoclaveInfo?.tempoTestDiarioBDMin
-                                    }
-                                  />
-                                </div>
-                              </div>
-
-                              <div className="flex flex-col w-full gap-2">
-                                <Label
-                                  htmlFor="tempoDiarioAquecimentoMaqMin"
-                                  className=""
                                 >
-                                  Tempo em minutos para procedimento diário de
-                                  aquecimento máquina fria:
-                                </Label>
-                                <Input
-                                  id="tempoDiarioAquecimentoMaqMin"
-                                  name="tempoDiarioAquecimentoMaqMin"
-                                  className="col-span-3"
-                                  defaultValue={
-                                    autoclaveInfo?.tempoDiarioAquecimentoMaqMin
-                                  }
-                                />
-                              </div>
-                              <div className="flex flex-col w-full gap-2">
-                                <Label htmlFor="preco" className="">
-                                  Preço:
-                                </Label>
-                                <Input
-                                  id="preco"
-                                  name="preco"
-                                  className="col-span-3"
-                                  defaultValue={autoclaveInfo?.preco}
-                                />
-                              </div>
-                            </div>
+                                  <div className="flex flex-col justify-start items-start gap-4 py-4">
+                                    <div className="flex justify-between items-center gap-4 w-full">
+                                      <div className="flex flex-col w-full gap-2">
+                                        <Label htmlFor="marcaLavadora">
+                                          Marca da Lavadora:
+                                        </Label>
+                                        <Select
+                                          onValueChange={(value) =>
+                                            setSelectedBrandId(Number(value))
+                                          }
+                                        >
+                                          <SelectTrigger id="marcaLavadora">
+                                            <SelectValue placeholder="Selecione uma marca" />
+                                          </SelectTrigger>
+                                          <SelectContent position="popper">
+                                            {autoclaveModel.map((brand) => (
+                                              <SelectItem
+                                                key={brand.id}
+                                                value={String(brand.id)}
+                                              >
+                                                {brand?.nomeMarca}
+                                              </SelectItem>
+                                            ))}
+                                          </SelectContent>
+                                        </Select>
+                                      </div>
+                                      <div className="flex flex-col w-full gap-2">
+                                        <Label htmlFor="name" className="">
+                                          Nome do modelo:
+                                        </Label>
+                                        <Input
+                                          id="modeloAutoclave"
+                                          name="modeloAutoclave"
+                                          className="col-span-3"
+                                          defaultValue={
+                                            autoclaveInfo?.modeloAutoclave
+                                          }
+                                          onChange={(e) =>
+                                            setNewAutoclaveModel(e.target.value)
+                                          }
+                                        />
+                                      </div>
+                                    </div>
+                                    <div className="flex justify-between items-center gap-4 w-full">
+                                      <div className="flex flex-col w-full gap-2">
+                                        <Label
+                                          htmlFor="volumeTotCamaraLt"
+                                          className=""
+                                        >
+                                          Volume total da câmara (L):
+                                        </Label>
+                                        <Input
+                                          id="volumeTotCamaraLt"
+                                          name="volumeTotCamaraLt"
+                                          className="col-span-3"
+                                          defaultValue={
+                                            autoclaveInfo?.volumeTotCamaraLt
+                                          }
+                                        />
+                                      </div>
+                                      <div className="flex flex-col w-full gap-2">
+                                        <Label
+                                          htmlFor="volumeUtilCamaraLt"
+                                          className=""
+                                        >
+                                          Volume útil da câmara (L):
+                                        </Label>
+                                        <Input
+                                          id="volumeUtilCamaraLt"
+                                          name="volumeUtilCamaraLt"
+                                          className="col-span-3"
+                                          defaultValue={
+                                            autoclaveInfo?.volumeUtilCamaraLt
+                                          }
+                                        />
+                                      </div>
+                                    </div>
+                                    <div className="flex flex-col w-full gap-2">
+                                      <Label
+                                        htmlFor="medTotTempoCicloATMin"
+                                        className=""
+                                      >
+                                        Tempo em minutos do total médio do ciclo
+                                        de alta temperatura incluindo secagem
+                                        (capacidade máxima):
+                                      </Label>
+                                      <Input
+                                        id="medTotTempoCicloATMin"
+                                        name="medTotTempoCicloATMin"
+                                        defaultValue={
+                                          autoclaveInfo?.medTotTempoCicloATMin
+                                        }
+                                      />
+                                    </div>
+                                    <div className="flex justify-between items-center gap-4 w-full">
+                                      <div className="flex flex-col w-full gap-2">
+                                        <Label
+                                          htmlFor="tempoCargaDescargaMin"
+                                          className=""
+                                        >
+                                          Tempo em minutos de Carga e Descarga:
+                                        </Label>
+                                        <Input
+                                          id="tempoCargaDescargaMin"
+                                          name="tempoCargaDescargaMin"
+                                          defaultValue={
+                                            autoclaveInfo?.tempoCargaDescargaMin
+                                          }
+                                        />
+                                      </div>
+                                      <div className="flex flex-col w-full gap-2">
+                                        <Label
+                                          htmlFor="tempoTestDiarioBDMin"
+                                          className=""
+                                        >
+                                          Tempo em minutos para teste diário
+                                          B&D:
+                                        </Label>
+                                        <Input
+                                          id="tempoTestDiarioBDMin"
+                                          name="tempoTestDiarioBDMin"
+                                          defaultValue={
+                                            autoclaveInfo?.tempoTestDiarioBDMin
+                                          }
+                                        />
+                                      </div>
+                                    </div>
 
-                            <DialogFooter>
-                              <Button variant="outline">Cancelar</Button>
-                              <Button type="submit" variant="primary">
-                                Atualizar
-                              </Button>
-                            </DialogFooter>
-                          </form> */}
+                                    <div className="flex flex-col w-full gap-2">
+                                      <Label
+                                        htmlFor="tempoDiarioAquecimentoMaqMin"
+                                        className=""
+                                      >
+                                        Tempo em minutos para procedimento
+                                        diário de aquecimento máquina fria:
+                                      </Label>
+                                      <Input
+                                        id="tempoDiarioAquecimentoMaqMin"
+                                        name="tempoDiarioAquecimentoMaqMin"
+                                        defaultValue={
+                                          autoclaveInfo?.tempoDiarioAquecimentoMaqMin
+                                        }
+                                      />
+                                    </div>
+                                    <div className="flex flex-col w-full gap-2">
+                                      <Label htmlFor="preco" className="">
+                                        Preço:
+                                      </Label>
+                                      <Input
+                                        id="preco"
+                                        name="preco"
+                                        className="col-span-3"
+                                        defaultValue={autoclaveInfo?.preco}
+                                      />
+                                    </div>
+                                  </div>
+
+                                  <DialogFooter>
+                                    <Button
+                                      variant="outline"
+                                      onClick={() => {
+                                        getAutoclaveModel();
+                                      }}
+                                    >
+                                      Cancelar
+                                    </Button>
+                                    <Button type="submit" variant="primary">
+                                      Atualizar Autoclave
+                                    </Button>
+                                  </DialogFooter>
+                                </form>
+                              )}
                             </DialogContent>
                           </Dialog>
-                          {/* Alert dialog to delete an Autoclave item */}
+
+                          {/* Button to delete autoclave model */}
                           <AlertDialog>
                             <AlertDialogTrigger asChild>
                               <Button
-                                variant="destructive"
+                                variant="outline"
                                 size="icon"
-                                className="text-white "
+                                onClick={() => {
+                                  setSelectedBrandId(autoclave.id);
+                                }}
                               >
-                                <Trash2 size={16} />
+                                <Trash2 size="16" />
                               </Button>
                             </AlertDialogTrigger>
                             <AlertDialogContent>
                               <AlertDialogHeader>
                                 <AlertDialogTitle>
-                                  Deseja remover este item?
+                                  Você tem certeza que deseja deletar este
+                                  modelo de autoclave?
                                 </AlertDialogTitle>
                                 <AlertDialogDescription>
-                                  Esta ação não poderá ser desfeita.
+                                  Essa ação não pode ser desfeita.
                                 </AlertDialogDescription>
                               </AlertDialogHeader>
                               <AlertDialogFooter>
                                 <AlertDialogCancel>Cancelar</AlertDialogCancel>
                                 <AlertDialogAction
-                                  className="bg-red-500 hover:bg-red-600"
                                   onClick={() =>
                                     deleteAutoclaveModel(autoclave.id)
                                   }
+                                  className="bg-red-600 focus:ring-red-600"
                                 >
-                                  Excluir
+                                  Confirmar
                                 </AlertDialogAction>
                               </AlertDialogFooter>
                             </AlertDialogContent>
