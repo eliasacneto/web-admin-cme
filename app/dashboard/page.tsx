@@ -50,6 +50,12 @@ import axios from "axios";
 import { Edit, Eye, Trash2 } from "lucide-react";
 import Loader from "@/components/loader";
 import { Metadata } from "next";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 interface Lead {
   id: number;
@@ -68,18 +74,49 @@ interface Lead {
   estado: string;
 }
 
+interface AutoclaveRecommendation {
+  nomeMarca: string;
+  modeloAutoclave: string;
+  preco: number;
+}
+
+interface WasherRecommendation {
+  nomeMarca: string;
+  modeloLavadora: string;
+  preco: number;
+}
+
+interface LeadData {
+  autoclaveRecommendations?: AutoclaveRecommendation[];
+  washerRecommendations?: WasherRecommendation[];
+}
+
 const Dashboard = () => {
   const { toast } = useToast();
   const [lead, setLead] = useState<Lead[]>([]);
   const [newLead, setNewLead] = useState<string>("");
-
+  const [leadData, setLeadData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+
+  const getRecommendations = async (lead: any) => {
+    try {
+      const lastId = lead.id;
+      console.log(`O id que está sendo enviado é: ${lastId}`);
+
+      const response = await axios.get(`http://localhost:8000/lead/${lastId}`);
+      console.log("Detalhes do lead:", response.data);
+
+      setLeadData(response.data);
+    } catch (error) {
+      console.error("Erro ao obter recomendações:", error);
+    }
+  };
 
   const getLead = async () => {
     setLoading(true);
     try {
       const response = await axios.get("http://localhost:8000/lead");
-
+      await getRecommendations(response.data[0]);
       if (response.status === 200) {
         setLead(response.data);
       } else {
@@ -433,17 +470,16 @@ const Dashboard = () => {
                         <Eye size={18} />
                       </Button>
                     </DialogTrigger>
-                    <DialogContent className="max-w-screen-md ">
+                    <DialogContent className="max-w-screen-lg p-4 ">
                       <DialogHeader>
-                        <DialogTitle>Informações do Lead</DialogTitle>
-                        <DialogDescription>
-                          Preencha os campos para cadastrar um novo cliente em
-                          potencial.
-                        </DialogDescription>
+                        <DialogTitle className="text-xl">
+                          Informações do Lead
+                        </DialogTitle>
+                        <DialogDescription></DialogDescription>
                       </DialogHeader>
-                      <form>
-                        <div className="flex flex-col justify-start items-start gap-4 py-4 ">
-                          <div className="flex justify-between items-center gap-4 w-full">
+                      <form className="max-w=screen overflow-y-auto max-h-[80vh] pl-4 pr-4">
+                        <div className="flex flex-col justify-start items-start gap-4 py-4 p-4">
+                          <div className="flex justify-between items-center gap-4 w-full ">
                             <div className="flex flex-col w-full gap-2">
                               <Label htmlFor="nomeLead" className="">
                                 Nome completo:
@@ -576,8 +612,244 @@ const Dashboard = () => {
                             </div>
                           </div>
                         </div>
+                        <div className="flex mb-10">
+                          <Accordion
+                            type="single"
+                            collapsible
+                            className="w-full"
+                          >
+                            <AccordionItem value="item-1">
+                              <AccordionTrigger className="font-bold">
+                                Mais detalhes
+                              </AccordionTrigger>
+                              <AccordionContent>
+                                <div className="flex flex-col justify-start items-start gap-4 py-4 p-4">
+                                  <div className="flex justify-between items-center gap-4 w-full">
+                                    <div className="flex flex-col w-full gap-2">
+                                      <Label
+                                        htmlFor="numeroSalasCirurgicas"
+                                        className=""
+                                      >
+                                        Número de salas cirúrgicas:
+                                      </Label>
+                                      <Input
+                                        id={`numeroSalasCirurgicas-${item.id}`}
+                                        defaultValue={
+                                          leadData.numeroSalasCirurgicas
+                                        }
+                                        className="col-span-3"
+                                      />
+                                    </div>
+                                    <div className="flex flex-col w-full gap-2">
+                                      <Label
+                                        htmlFor="numeroCirurgiaSalaDia"
+                                        className=""
+                                      >
+                                        Número de cirurgias/sala/dia:
+                                      </Label>
+                                      <Input
+                                        id={`numeroCirurgiaSalaDia-${item.id}`}
+                                        value={leadData.numeroCirurgiaSalaDia}
+                                        className="col-span-3"
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="flex justify-between items-center gap-4 w-full">
+                                    <div className="flex flex-col w-full gap-2">
+                                      <Label
+                                        htmlFor="numeroLeitoUTI"
+                                        className=""
+                                      >
+                                        Número de leitos UTI:
+                                      </Label>
+                                      <Input
+                                        id={`numeroLeitoUTI-${item.id}`}
+                                        value={leadData.numeroLeitoUTI}
+                                        className="col-span-3"
+                                      />
+                                    </div>
+                                    <div className="flex flex-col w-full gap-2">
+                                      <Label
+                                        htmlFor="numeroLeitoInternacao"
+                                        className=""
+                                      >
+                                        Número de leitos Internação:
+                                      </Label>
+                                      <Input
+                                        id={`numeroLeitoInternacao-${item.id}`}
+                                        value={leadData.numeroLeitoInternacao}
+                                        className="col-span-3"
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="flex justify-between items-center gap-4 w-full">
+                                    <div className="flex flex-col w-full gap-2">
+                                      <Label
+                                        htmlFor="numeroLeitoRPA"
+                                        className=""
+                                      >
+                                        Número de leitos RPA:
+                                      </Label>
+                                      <Input
+                                        id={`numeroLeitoRPA-${item.id}`}
+                                        value={leadData.numeroLeitoRPA}
+                                        className="col-span-3"
+                                      />
+                                    </div>
+                                    <div className="flex flex-col w-full gap-2">
+                                      <Label
+                                        htmlFor="numeroLeitoObs"
+                                        className=""
+                                      >
+                                        Número de leitos Observações:
+                                      </Label>
+                                      <Input
+                                        id={`numeroLeitoObs-${item.id}`}
+                                        value={leadData.numeroLeitoObs}
+                                        className="col-span-3"
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="flex justify-between items-center gap-4 w-full">
+                                    <div className="flex flex-col w-full gap-2">
+                                      <Label
+                                        htmlFor="numeroLeitoHospitalDia"
+                                        className=""
+                                      >
+                                        Número de leitos Hospita/dia:
+                                      </Label>
+                                      <Input
+                                        id={`numeroLeitoHospitalDia-${item.id}`}
+                                        value={leadData.numeroLeitoHospitalDia}
+                                        className="col-span-3"
+                                      />
+                                    </div>
+                                    <div className="flex flex-col w-full gap-2">
+                                      <Label
+                                        htmlFor="momentoAtualEmpreendimento"
+                                        className=""
+                                      >
+                                        Momento atual do empreendimento:
+                                      </Label>
+                                      <Input
+                                        id={`momentoAtualEmpreendimento-${item.id}`}
+                                        value={
+                                          leadData.momentoAtualEmpreendimento
+                                        }
+                                        className="col-span-3"
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="flex justify-between items-center gap-4 w-full">
+                                    <div className="flex flex-col w-full gap-2">
+                                      <Label htmlFor="rua" className="">
+                                        Possui engenharia clínica?
+                                      </Label>
+                                      <Input
+                                        id={`possuiEngenhariaClinica-${item.id}`}
+                                        value={leadData.possuiEngenhariaClinica}
+                                        className="col-span-3"
+                                      />
+                                    </div>
+                                    <div className="flex flex-col w-full gap-2">
+                                      <Label htmlFor="bairro" className="">
+                                        As cirurgias são realizadas nos dias:
+                                      </Label>
+                                      <Input
+                                        id={`bairro-${item.id}`}
+                                        value={leadData.diaSemanaCirurgia}
+                                        className="col-span-3"
+                                      />
+                                    </div>
+                                  </div>
+                                </div>
+                              </AccordionContent>
+                            </AccordionItem>
+                            <AccordionItem value="item-2">
+                              <AccordionTrigger className="rounded-md mt-4 font-bold text-base">
+                                Nossas recomendações
+                              </AccordionTrigger>
+                              <AccordionContent>
+                                <h5 className="font-semibold text-slate-950 mb-4 mt-2 antialiased text-base p-4">
+                                  Autoclaves:
+                                </h5>
+                                <Table className="rounded">
+                                  <TableHeader className="">
+                                    <TableRow className="bg-[#95a140]/90 hover:bg-[#95a140]/90 rounded-lg">
+                                      <TableHead className="font-bold text-white">
+                                        Marca
+                                      </TableHead>
+                                      <TableHead className="font-bold text-white">
+                                        Modelo
+                                      </TableHead>
+                                      <TableHead className="text-right font-bold text-white">
+                                        Faixa de preço
+                                      </TableHead>
+                                    </TableRow>
+                                  </TableHeader>
+                                  <TableBody>
+                                    {leadData.autoclaveRecommendations &&
+                                      leadData.autoclaveRecommendations.map(
+                                        (autoclave: any, index: number) => (
+                                          <TableRow key={index}>
+                                            <TableCell>
+                                              {autoclave.nomeMarca}
+                                            </TableCell>
+                                            <TableCell>
+                                              {autoclave.modeloAutoclave}
+                                            </TableCell>
+                                            <TableCell className="text-right">
+                                              R${autoclave.preco}
+                                            </TableCell>
+                                          </TableRow>
+                                        )
+                                      )}
+                                  </TableBody>
+                                </Table>
+                                <hr />
+                                <h5 className="font-semibold text-slate-950 mb-4 mt-5 antialiased text-base">
+                                  Lavadoras :
+                                </h5>
+                                <Table className="rounded p-4">
+                                  <TableHeader className="">
+                                    <TableRow className="bg-[#95a140]/90 hover:bg-[#95a140]/90 rounded-lg">
+                                      <TableHead className="font-bold text-white">
+                                        Marca
+                                      </TableHead>
+                                      <TableHead className="font-bold text-white">
+                                        Modelo
+                                      </TableHead>
+                                      <TableHead className="text-right font-bold text-white">
+                                        Faixa de preço
+                                      </TableHead>
+                                    </TableRow>
+                                  </TableHeader>
+                                  <TableBody>
+                                    {leadData.washerRecommendations &&
+                                      leadData.washerRecommendations.map(
+                                        (washer: any, index: number) => (
+                                          <TableRow key={index}>
+                                            <TableCell>
+                                              {washer.nomeMarca}
+                                            </TableCell>
+                                            <TableCell>
+                                              {washer.modeloLavadora}
+                                            </TableCell>
+                                            <TableCell className="text-right">
+                                              R${washer.preco}
+                                            </TableCell>
+                                          </TableRow>
+                                        )
+                                      )}
+                                  </TableBody>
+                                </Table>
+                              </AccordionContent>
+                            </AccordionItem>
+                          </Accordion>
+                        </div>
+
                         <DialogFooter>
-                          <Button variant="primary">Fechar</Button>
+                          <Button variant="outline">Fechar</Button>
                         </DialogFooter>
                       </form>
                     </DialogContent>
