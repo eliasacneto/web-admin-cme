@@ -253,7 +253,7 @@ const BrandsWasher = () => {
                       <DialogHeader>
                         <DialogTitle>Editar autoclave</DialogTitle>
                         <DialogDescription>
-                          Altere o nome da marca da Autoclave
+                          Altere o nome da marca da Lavadora
                         </DialogDescription>
                       </DialogHeader>
                       <form
