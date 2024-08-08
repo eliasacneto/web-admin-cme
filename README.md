@@ -8,6 +8,8 @@ The project aims to transform an Excel spreadsheet used for sizing sterilization
 
 I developed a Web Administrative Portal to provide more precise and clear information about client registrations, thus mapping future clients and obtaining information about new hospitals under construction.
 
+Check the Landing page to collect informantion repository by [clicking here](https://github.com/eliasacneto/web-cme)
+
 ### Technologies Used
 
 - Next.js: A React framework for server-side rendering and routing.
